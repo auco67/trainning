@@ -2,3 +2,4 @@ node_modules/
 package-lock.json
 .prettierrc
 *.md
+access_token_20241231.txt
