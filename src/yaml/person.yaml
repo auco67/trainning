@@ -1,0 +1,10 @@
+persons:
+  - id: '001'
+    name: '織田信長'
+    score: 100
+  - id: '002'
+    name: '豊臣秀吉'
+    score: 90
+  - id: '003'
+    name: '徳川家康'
+    score: 80
