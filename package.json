@@ -14,7 +14,7 @@
   "dependencies": {
     "@slack/bolt": "^3.17.1",
     "config": "^3.3.11",
-    "npm": "^10.8.0"
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
