@@ -15,7 +15,7 @@ if (require.main === module) {
     console.log(objJson)
     console.log(objJson['persons'])
     for (var item in objJson['persons']) {
-      console.log(objJson['persons'][item]['id'] + " " + objJson['persons'][item]['name'])
+      console.log(objJson['persons'][item]['id'] + ' ' + objJson['persons'][item]['name'])
     }
   } catch (err) {
     console.error(err.message)
