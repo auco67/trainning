@@ -30,4 +30,3 @@ function asyncAfter3second () {
 }
 asyncAfter3second();
 syncAfter3second();
-
