@@ -1,3 +1,8 @@
+/*
+ * 前提：csv-parseパッケージをインストールすること
+ * npm install --save csv-parse
+ * url:https://www.npmjs.com/package/csv-parse 
+ */
 const fs = require('fs')
 const {parse} = require('csv-parse/sync')
 
