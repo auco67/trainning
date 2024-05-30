@@ -129,11 +129,11 @@ for(var i=1; i<m; i++){
             }else{
                 weekday +=28
             }
-        }else{
+          }else{
             weekday +=30
+          }
         }
-    }
-}
+      }
 weekday +=d
 var h = Math.floor(weekday%7)
 
@@ -141,7 +141,7 @@ for (var i in w) {
     if (i == h) {
       console.log(w[i]+'曜日')
     }
-  }
+}
 
 function isLeap(y){
     return (y % 4 == 0 && y % 100 != 0) || y % 400 == 0
@@ -193,3 +193,53 @@ if( (m>=1 && m<=12) && (d>=1 && d<=31)){
   }
   console.log(m+"月"+d+"日")
 }
+
+/*
+ * 西暦2019年の最長となる連休の日数を算出する
+ * 条件：休業日とは、土曜日、日曜日、または、内閣府の定める国民の祝日・休日のこと
+ */
+var year =2019
+var holiday = [ [1, 1], [1, 14], [2, 11], [3, 21], [4, 29], [4, 30],
+                [5, 1], [5, 2], [5, 3], [5, 4], [5, 5], [5, 6], [7, 15],
+                [8, 11], [8, 12], [9, 16], [9, 23], [10, 14], [10, 22],
+                [11, 3], [11, 4], [11, 23]]
+var daysOfMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+var isHoliday = []
+for(var i=0; i<13; i++){
+  isHoliday[i] = []
+  for(var j=0; j<32; j++){
+    isHoliday[i][j] = false
+  }
+}
+for(i=0; i<holiday.length; i++){
+  var one = holiday[i][0]
+  var two = holiday[i][1]
+  isHoliday[one][two] = true
+}
+
+var M=1
+var D=1
+var weekday = 2
+var answer = 0
+var temp = 0
+
+while(true){
+  if(weekday == 0 || weekday == 6 || isHoliday[M][D]){
+    temp++
+  }else{
+    answer = Math.max(temp, answer)
+    temp = 0
+  }
+  if(M==12 && D==31){
+    answer = Math.max(temp, answer)
+    break
+  }
+  if(D==daysOfMonth[M]){
+    M+=1
+    D=1
+  }else{
+    D+=1
+  }
+  weekday = (weekday+1)%7
+}
+console.log(answer)
