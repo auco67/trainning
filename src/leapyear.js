@@ -243,3 +243,155 @@ while(true){
   weekday = (weekday+1)%7
 }
 console.log(answer)
+
+/*
+ * 西暦2019年の最長となる連休の日数を算出する
+ * 条件：休業日とは、土曜日、日曜日、または、inputデータで指定する
+ */
+var input = ['8 13','10 31']
+var year =2019
+var holiday = []
+for(var i=0; i<input.length; i++){
+  holiday[i] = []
+  for(var j=0; j<2; j++){
+    var ary = input[i].split(" ")
+    holiday[i][j] = Number.parseInt(ary[j])
+  }
+}
+console.log(holiday)
+var daysOfMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+var isHoliday = []
+for(var i=0; i<13; i++){
+  isHoliday[i] = []
+  for(var j=0; j<32; j++){
+    isHoliday[i][j] = false
+  }
+}
+for(i=0; i<holiday.length; i++){
+  var one = holiday[i][0]
+  var two = holiday[i][1]
+  isHoliday[one][two] = true
+}
+
+var M=1
+var D=1
+var weekday = 2
+var answer = 0
+var temp = 0
+
+while(true){
+  if(weekday == 0 || weekday == 6 || isHoliday[M][D]){
+    temp++
+  }else{
+    answer = Math.max(temp, answer)
+    temp = 0
+  }
+  if(M==12 && D==31){
+    answer = Math.max(temp, answer)
+    break
+  }
+  if(D==daysOfMonth[M]){
+    M+=1
+    D=1
+  }else{
+    D+=1
+  }
+  weekday = (weekday+1)%7
+}
+console.log(answer)
+
+/*
+ * 日付のフォーマットの可否
+ * 値が日付フォーマット「YYYY/MM/DD」であるかどうか判定する
+ */
+
+var input = '2019/31/31'
+
+if(input.length<=20){
+  if(input.match(/^[A-Za-z0-9/]*$/)){
+    
+    var ary = input.split('/')
+    if(ary.length==3){
+      if(ary[0].length==4 && ary[1].length==2 && ary[2].length==2){
+        var y = Number.parseInt(ary[0])
+        var m = Number.parseInt(ary[1])
+        var d = Number.parseInt(ary[2])
+        if((m>=1 && m<=12) && (d>=1 && d<=31)){
+          console.log('Yes')
+        }else{
+          console.log('No')
+        }
+        
+      }else{
+        console.log('No')
+      }
+    }else{
+      console.log('No')
+    }
+  
+  }else{
+    console.log('No')
+  }
+}else{
+  console.log('No')
+}
+
+/*
+ * 日付のフォーマットの可否２
+ * 値が日付フォーマット「YYYY/MM/DD」であるかどうか判定する
+ * ただし、以下条件あり
+ * 　年は「YYYY」月は「MM」日は「DD」と/で区切って出力する
+ * 　フォーマットでない場合は「no answer」と出力する
+ * 　2つ以上の並びが考えられる場合は「many answers」と出力する
+ */
+
+var input = '9999/99/09'
+console.log(input)
+var str = ''
+var flg = false
+if(input.length==10 && (input.match(/^[A-Za-z0-9/]*$/))){
+  var ary = input.split('/')
+  if(ary.length==3){
+    for(var i in ary){
+      str = str + checker(ary[i],str) + "/"
+    }
+    if(flg){
+      console.log('many answers')
+    }else{
+      if(str.includes('ERR')){
+        console.log('no answer')
+      }else{
+        str = str.slice(0, str.length-1)
+        console.log(str)  
+      }
+    }    
+  }else{
+    console.log('no answer')
+  }
+}
+
+function checker(char,string){
+  var str = ""
+  if(char.length==4){
+    str= 'YYYY'
+  }else{
+    var s = Number.parseInt(char)
+    if(s>0 && s<13){
+      if(string.includes('MM')){
+        str= 'DD'
+        flg = true
+      }else{
+        str= 'MM'
+      }      
+    }else if(s>0 && s>=13 && s<32){
+      if(string.includes('DD')){
+        str= 'ERR'
+      }else{
+        str = 'DD'
+      }   
+    }else{
+      str= 'ERR'
+    }
+  }
+  return str
+}
