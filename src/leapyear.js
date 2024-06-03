@@ -104,7 +104,7 @@ h = Math.floor((7 + h) % 7)
 
 for (var i in w) {
   if (i == h) {
-    console.log(w[i]+'曜日')
+    console.log(w[i] + '曜日')
   }
 }
 
@@ -114,37 +114,37 @@ for (var i in w) {
 var y = 3141601912
 var m = 3
 var d = 31
-var w = ['日', '月', '火', '水', '木', '金','土']
+var w = ['日', '月', '火', '水', '木', '金', '土']
 var weekday = 2
-var leaps =((y-1) / 4 - (y-1) / 100 + (y-1) / 400) - (1799 / 4 - 1799 / 100 + 1799 / 400)
+var leaps = (y - 1) / 4 - (y - 1) / 100 + (y - 1) / 400 - (1799 / 4 - 1799 / 100 + 1799 / 400)
 weekday += (leaps + 365 * (y - 1800)) % 7
 
-for(var i=1; i<m; i++){
-    if(i==1 || i==3 || i==5 || i==7 || i==8 || i==10 || i==12){
-        weekday +=31
-    }else{
-        if(i==2){
-            if(isLeap(y)){
-                weekday +=29    
-            }else{
-                weekday +=28
-            }
-          }else{
-            weekday +=30
-          }
-        }
+for (var i = 1; i < m; i++) {
+  if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12) {
+    weekday += 31
+  } else {
+    if (i == 2) {
+      if (isLeap(y)) {
+        weekday += 29
+      } else {
+        weekday += 28
       }
-weekday +=d
-var h = Math.floor(weekday%7)
+    } else {
+      weekday += 30
+    }
+  }
+}
+weekday += d
+var h = Math.floor(weekday % 7)
 
 for (var i in w) {
-    if (i == h) {
-      console.log(w[i]+'曜日')
-    }
+  if (i == h) {
+    console.log(w[i] + '曜日')
+  }
 }
 
-function isLeap(y){
-    return (y % 4 == 0 && y % 100 != 0) || y % 400 == 0
+function isLeap(y) {
+  return (y % 4 == 0 && y % 100 != 0) || y % 400 == 0
 }
 
 /*
@@ -152,95 +152,115 @@ function isLeap(y){
  * 条件：１．平日は月～金曜日で休日は土～日で祝日は考慮しない
  * 　　　２．2月は28日までとし閏年は考慮しない
  */
-var date = new Date();
+var date = new Date()
 var m = 2
 var d = 28
 var w = 'FRI'
-var week = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+var week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
-if( (m>=1 && m<=12) && (d>=1 && d<=31)){
-  date.setMonth(m-1,d)
+if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+  date.setMonth(m - 1, d)
   console.log(date)
-  
+
   var plusNum = d
-  if(d==28) plusNum +=1
-  for(var i=0; i<week.length; i++){
-    if(week[i]==w){
-      switch (week[i]){
-        case "SUN":
-        case "MON":
-        case "TUE":
-        case "WED":
-        case "THU":
-          plusNum+=1
+  if (d == 28) plusNum += 1
+  for (var i = 0; i < week.length; i++) {
+    if (week[i] == w) {
+      switch (week[i]) {
+        case 'SUN':
+        case 'MON':
+        case 'TUE':
+        case 'WED':
+        case 'THU':
+          plusNum += 1
           break
-        case "FRI":
-          plusNum+=3
+        case 'FRI':
+          plusNum += 3
           break
-        case "SAT":
-          plusNum+=2
+        case 'SAT':
+          plusNum += 2
           break
       }
     }
   }
   date.setDate(plusNum)
-  m = date.getMonth()+1
+  m = date.getMonth() + 1
   d = date.getDate()
-  if(m==2 && d==29){
-    date.setDate(d+1)
-    m = date.getMonth()+1
+  if (m == 2 && d == 29) {
+    date.setDate(d + 1)
+    m = date.getMonth() + 1
     d = date.getDate()
   }
-  console.log(m+"月"+d+"日")
+  console.log(m + '月' + d + '日')
 }
 
 /*
  * 西暦2019年の最長となる連休の日数を算出する
  * 条件：休業日とは、土曜日、日曜日、または、内閣府の定める国民の祝日・休日のこと
  */
-var year =2019
-var holiday = [ [1, 1], [1, 14], [2, 11], [3, 21], [4, 29], [4, 30],
-                [5, 1], [5, 2], [5, 3], [5, 4], [5, 5], [5, 6], [7, 15],
-                [8, 11], [8, 12], [9, 16], [9, 23], [10, 14], [10, 22],
-                [11, 3], [11, 4], [11, 23]]
+var year = 2019
+var holiday = [
+  [1, 1],
+  [1, 14],
+  [2, 11],
+  [3, 21],
+  [4, 29],
+  [4, 30],
+  [5, 1],
+  [5, 2],
+  [5, 3],
+  [5, 4],
+  [5, 5],
+  [5, 6],
+  [7, 15],
+  [8, 11],
+  [8, 12],
+  [9, 16],
+  [9, 23],
+  [10, 14],
+  [10, 22],
+  [11, 3],
+  [11, 4],
+  [11, 23],
+]
 var daysOfMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 var isHoliday = []
-for(var i=0; i<13; i++){
+for (var i = 0; i < 13; i++) {
   isHoliday[i] = []
-  for(var j=0; j<32; j++){
+  for (var j = 0; j < 32; j++) {
     isHoliday[i][j] = false
   }
 }
-for(i=0; i<holiday.length; i++){
+for (i = 0; i < holiday.length; i++) {
   var one = holiday[i][0]
   var two = holiday[i][1]
   isHoliday[one][two] = true
 }
 
-var M=1
-var D=1
+var M = 1
+var D = 1
 var weekday = 2
 var answer = 0
 var temp = 0
 
-while(true){
-  if(weekday == 0 || weekday == 6 || isHoliday[M][D]){
+while (true) {
+  if (weekday == 0 || weekday == 6 || isHoliday[M][D]) {
     temp++
-  }else{
+  } else {
     answer = Math.max(temp, answer)
     temp = 0
   }
-  if(M==12 && D==31){
+  if (M == 12 && D == 31) {
     answer = Math.max(temp, answer)
     break
   }
-  if(D==daysOfMonth[M]){
-    M+=1
-    D=1
-  }else{
-    D+=1
+  if (D == daysOfMonth[M]) {
+    M += 1
+    D = 1
+  } else {
+    D += 1
   }
-  weekday = (weekday+1)%7
+  weekday = (weekday + 1) % 7
 }
 console.log(answer)
 
@@ -248,55 +268,55 @@ console.log(answer)
  * 西暦2019年の最長となる連休の日数を算出する
  * 条件：休業日とは、土曜日、日曜日、または、inputデータで指定する
  */
-var input = ['8 13','10 31']
-var year =2019
+var input = ['8 13', '10 31']
+var year = 2019
 var holiday = []
-for(var i=0; i<input.length; i++){
+for (var i = 0; i < input.length; i++) {
   holiday[i] = []
-  for(var j=0; j<2; j++){
-    var ary = input[i].split(" ")
+  for (var j = 0; j < 2; j++) {
+    var ary = input[i].split(' ')
     holiday[i][j] = Number.parseInt(ary[j])
   }
 }
 console.log(holiday)
 var daysOfMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 var isHoliday = []
-for(var i=0; i<13; i++){
+for (var i = 0; i < 13; i++) {
   isHoliday[i] = []
-  for(var j=0; j<32; j++){
+  for (var j = 0; j < 32; j++) {
     isHoliday[i][j] = false
   }
 }
-for(i=0; i<holiday.length; i++){
+for (i = 0; i < holiday.length; i++) {
   var one = holiday[i][0]
   var two = holiday[i][1]
   isHoliday[one][two] = true
 }
 
-var M=1
-var D=1
+var M = 1
+var D = 1
 var weekday = 2
 var answer = 0
 var temp = 0
 
-while(true){
-  if(weekday == 0 || weekday == 6 || isHoliday[M][D]){
+while (true) {
+  if (weekday == 0 || weekday == 6 || isHoliday[M][D]) {
     temp++
-  }else{
+  } else {
     answer = Math.max(temp, answer)
     temp = 0
   }
-  if(M==12 && D==31){
+  if (M == 12 && D == 31) {
     answer = Math.max(temp, answer)
     break
   }
-  if(D==daysOfMonth[M]){
-    M+=1
-    D=1
-  }else{
-    D+=1
+  if (D == daysOfMonth[M]) {
+    M += 1
+    D = 1
+  } else {
+    D += 1
   }
-  weekday = (weekday+1)%7
+  weekday = (weekday + 1) % 7
 }
 console.log(answer)
 
@@ -307,32 +327,29 @@ console.log(answer)
 
 var input = '2019/31/31'
 
-if(input.length<=20){
-  if(input.match(/^[A-Za-z0-9/]*$/)){
-    
+if (input.length <= 20) {
+  if (input.match(/^[A-Za-z0-9/]*$/)) {
     var ary = input.split('/')
-    if(ary.length==3){
-      if(ary[0].length==4 && ary[1].length==2 && ary[2].length==2){
+    if (ary.length == 3) {
+      if (ary[0].length == 4 && ary[1].length == 2 && ary[2].length == 2) {
         var y = Number.parseInt(ary[0])
         var m = Number.parseInt(ary[1])
         var d = Number.parseInt(ary[2])
-        if((m>=1 && m<=12) && (d>=1 && d<=31)){
+        if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
           console.log('Yes')
-        }else{
+        } else {
           console.log('No')
         }
-        
-      }else{
+      } else {
         console.log('No')
       }
-    }else{
+    } else {
       console.log('No')
     }
-  
-  }else{
+  } else {
     console.log('No')
   }
-}else{
+} else {
   console.log('No')
 }
 
@@ -349,48 +366,48 @@ var input = '9999/99/09'
 console.log(input)
 var str = ''
 var flg = false
-if(input.length==10 && (input.match(/^[A-Za-z0-9/]*$/))){
+if (input.length == 10 && input.match(/^[A-Za-z0-9/]*$/)) {
   var ary = input.split('/')
-  if(ary.length==3){
-    for(var i in ary){
-      str = str + checker(ary[i],str) + "/"
+  if (ary.length == 3) {
+    for (var i in ary) {
+      str = str + checker(ary[i], str) + '/'
     }
-    if(flg){
+    if (flg) {
       console.log('many answers')
-    }else{
-      if(str.includes('ERR')){
+    } else {
+      if (str.includes('ERR')) {
         console.log('no answer')
-      }else{
-        str = str.slice(0, str.length-1)
-        console.log(str)  
+      } else {
+        str = str.slice(0, str.length - 1)
+        console.log(str)
       }
-    }    
-  }else{
+    }
+  } else {
     console.log('no answer')
   }
 }
 
-function checker(char,string){
-  var str = ""
-  if(char.length==4){
-    str= 'YYYY'
-  }else{
+function checker(char, string) {
+  var str = ''
+  if (char.length == 4) {
+    str = 'YYYY'
+  } else {
     var s = Number.parseInt(char)
-    if(s>0 && s<13){
-      if(string.includes('MM')){
-        str= 'DD'
-        flg = true
-      }else{
-        str= 'MM'
-      }      
-    }else if(s>0 && s>=13 && s<32){
-      if(string.includes('DD')){
-        str= 'ERR'
-      }else{
+    if (s > 0 && s < 13) {
+      if (string.includes('MM')) {
         str = 'DD'
-      }   
-    }else{
-      str= 'ERR'
+        flg = true
+      } else {
+        str = 'MM'
+      }
+    } else if (s > 0 && s >= 13 && s < 32) {
+      if (string.includes('DD')) {
+        str = 'ERR'
+      } else {
+        str = 'DD'
+      }
+    } else {
+      str = 'ERR'
     }
   }
   return str
