@@ -1,5 +1,3 @@
-const { FAILSAFE_SCHEMA } = require('js-yaml')
-
 /*
  * SETP: 1 指定の要素のカウント
  * 要素数 N 個の配列 A に K がいくつ含まれるか数える
@@ -534,7 +532,7 @@ function sortDesc(a, b) {
  */
 lines = null
 lines = ['5 10 1', 1, 4, 4, 3, 5, 4, 2, 4, 1, 1]
-ary = null, ary2 = null
+;(ary = null), (ary2 = null)
 ary = lines[0].split(' ')
 N = Number.parseInt(ary[0])
 K = Number.parseInt(ary[1])
@@ -545,12 +543,12 @@ while (c < F) {
   lines.shift()
   c++
 }
-ary2 = lines.filter((element, index)=>{
+ary2 = lines.filter((element, index) => {
   return lines.indexOf(element) == index
 })
 
-ary2.forEach(a=>{
-  console.log('STEP: 24 場所取り ' +a)
+ary2.forEach((a) => {
+  console.log('STEP: 24 場所取り ' + a)
 })
 
 /*
@@ -561,32 +559,32 @@ ary2.forEach(a=>{
  */
 lines = null
 //lines = ['1 1 1 1', '1 1 1', '1 1','1']
-lines = ['1 0 0 1', '0 0 0', '0 0','0']
+lines = ['1 0 0 1', '0 0 0', '0 0', '0']
 ary = null
 ary = []
-lines.forEach(line=>{
+lines.forEach((line) => {
   ary += line.split(' ') + ','
 })
 ary = ary.split(',')
 ary.pop()
 ary.reverse()
 counter = 0
-for(i in ary){ 
-  if(ary[i]=='1'){
-    var result = Number.parseInt(i)+1
+for (i in ary) {
+  if (ary[i] == '1') {
+    var result = Number.parseInt(i) + 1
     console.log('STEP: 25 ボウリング ' + result)
     break
   }
 }
-for(i in ary){ 
-  if(ary[i]=='1'){
+for (i in ary) {
+  if (ary[i] == '1') {
     counter++
   }
 }
 console.log('STEP: 25 ボウリング ' + counter)
 
 /*
- * STEP: 26 集団行動 
+ * STEP: 26 集団行動
  *  あなたは集団行動のリーダーです。次のような指示を出すことで様々な列の操作ができます。
  *  swap A B: 先頭から A 番目の人と、先頭から B 番目の人の位置を入れ替える。
  *  reverse: 列の前後を入れ替える。
@@ -604,33 +602,33 @@ var Q = Number.parseInt(ary[1])
 lines.shift()
 ary2 = null
 ary2 = []
-for(i=0; i<N; i++) ary2.push(i+1)
+for (i = 0; i < N; i++) ary2.push(i + 1)
 
-for(i=0; i<lines.length; i++){
-  if(lines[i].includes('reverse')){
+for (i = 0; i < lines.length; i++) {
+  if (lines[i].includes('reverse')) {
     ary2.reverse()
     console.log(ary2)
-  }else if(lines[i].includes('resize')){
+  } else if (lines[i].includes('resize')) {
     ary = lines[i].split(' ')
-    
-    while(ary2.length>Number.parseInt(ary[1])){
+
+    while (ary2.length > Number.parseInt(ary[1])) {
       ary2.pop()
     }
     console.log(ary2)
-  }else if(lines[i].includes('swap')){
+  } else if (lines[i].includes('swap')) {
     ary = lines[i].split(' ')
-    var targetId = Number.parseInt(ary[1]-1)
-    var sourceId = Number.parseInt(ary[2]-1)
-    ary2 =replaceArrayElements(ary2,targetId,sourceId)
+    var targetId = Number.parseInt(ary[1] - 1)
+    var sourceId = Number.parseInt(ary[2] - 1)
+    ary2 = replaceArrayElements(ary2, targetId, sourceId)
     console.log(ary2)
   }
 }
-ary2.forEach(a=>{
-  console.log('STEP: 26 集団行動 ' +a)
+ary2.forEach((a) => {
+  console.log('STEP: 26 集団行動 ' + a)
 })
 
 function replaceArrayElements(array, targetId, sourceId) {
-  const cloneArray = [...array];
-  [cloneArray[targetId], cloneArray[sourceId]] = [array[sourceId], array[targetId]];
-  return cloneArray;
+  const cloneArray = [...array]
+  ;[cloneArray[targetId], cloneArray[sourceId]] = [array[sourceId], array[targetId]]
+  return cloneArray
 }
