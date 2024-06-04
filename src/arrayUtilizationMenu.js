@@ -673,4 +673,3 @@ function replaceArrayElements(array, targetId, sourceId) {
   ;[cloneArray[targetId], cloneArray[sourceId]] = [array[sourceId], array[targetId]]
   return cloneArray
 }
-
