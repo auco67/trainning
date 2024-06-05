@@ -1182,8 +1182,18 @@ step12()
 function step13() {
   //var lines = ['3 6', '10 1 1 2 2 3 3', '10 0 0 6 1 7 2', '10 0 0 7 5 8 3', '1 1 2 2', '1 2 3 2', '1 3 2 3',
   //              '2 2 3 1', '2 3 3 1', '1 2 3 2']
-  var lines = ['3 6', '10 1 1 2 2 3 3', '10 0 0 6 1 7 2', '10 0 0 7 5 8 3', '1 1 2 2', '1 2 3 2', '1 3 2 3',
-                '2 2 3 1', '2 3 3 1', '1 2 3 2']
+  var lines = [
+    '3 6',
+    '10 1 1 2 2 3 3',
+    '10 0 0 6 1 7 2',
+    '10 0 0 7 5 8 3',
+    '1 1 2 2',
+    '1 2 3 2',
+    '1 3 2 3',
+    '2 2 3 1',
+    '2 3 3 1',
+    '1 2 3 2',
+  ]
   var ary = lines[0].split(' ')
   var N = Number.parseInt(ary[0])
   var K = Number.parseInt(ary[1])
@@ -1200,7 +1210,8 @@ function step13() {
         Number.parseInt(ay[3]),
         Number.parseInt(ay[4]),
         Number.parseInt(ay[5]),
-        Number.parseInt(ay[6]))
+        Number.parseInt(ay[6]),
+      )
       players.push(player)
     } else {
       fights.push(lines[i])
@@ -1213,7 +1224,7 @@ function step13() {
     var pNo2 = Number.parseInt(temp[2]) - 1
     var p2_sts = players[pNo2].attack(pNo2)
     if (players[pNo1].hp > 0 && players[pNo2].hp > 0) {
-      if ((p1_sts[0] == 0 && p1_sts[1] == 0) && (p2_sts[0] == 0 && p2_sts[1] == 0)) {
+      if (p1_sts[0] == 0 && p1_sts[1] == 0 && p2_sts[0] == 0 && p2_sts[1] == 0) {
         players[pNo1].specialTech()
         players[pNo2].specialTech()
       }
@@ -1261,8 +1272,8 @@ class Player {
   }
 
   specialTech() {
-    for(var i=0; i<3; i++){
-      this.frame[i] = Math.max(1, (this.frame[i]-3))
+    for (var i = 0; i < 3; i++) {
+      this.frame[i] = Math.max(1, this.frame[i] - 3)
       this.offensive[i] += 5
     }
   }
