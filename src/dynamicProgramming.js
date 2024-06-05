@@ -146,3 +146,32 @@ function step5(){
 
 }
 step5()
+
+/*
+ * STEP: 6 【漸化式】 3項間漸化式 2 
+ *  整数 Q と Q 個の整数 k_1, k_2, ... , k_Q が与えられます。
+ *  次のように定められた数列の k_i 項目の値を順に出力してください。
+ *  ちなみに、これはフィボナッチ数列と呼ばれる有名な数列です。
+ *  a_1 = 1 
+ *  a_2 = 1 
+ *  a_n = a_{n-2} + a_{n-1} (n ≧ 3)
+ */
+function step6(){
+    var lines = [5, 1, 2, 3, 4, 3]
+    var x_1 = 1
+    var x_2 = 1
+    var Q = Number.parseInt(lines[0])
+    lines.shift()
+    var result = []
+    result.push(0)
+    result.push(x_1)
+    result.push(x_2)
+    for(var i=3; i<102; i++){
+        result.push(Number.parseInt(result[i-2])+ Number.parseInt(result[i-1]))
+    }
+    for(i=0; i<Q; i++){
+        var index = Number.parseInt(lines[i])
+        console.log('STEP: 6 【漸化式】 3項間漸化式 2  ' +result[index])
+    }
+}
+step6()
