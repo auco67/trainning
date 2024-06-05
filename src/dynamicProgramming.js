@@ -57,3 +57,33 @@ function step2() {
   }
 }
 step2()
+
+/* 
+ * STEP: 3 特殊な2項間漸化式 1
+ *  整数 x, d_1, d_2, k が与えられます。
+ *  次のように定められた数列の k 項目の値を出力してください。
+ *   a_1 = x 
+ *   a_n = a_{n-1} + d_1 (n が奇数のとき、n ≧ 3) 
+ *   a_n = a_{n-1} + d_2 (n が偶数のとき)
+ */
+function step3(){
+    var lines = ['5 -7 10 5']
+    var ary = lines[0].split(' ')
+    var x = Number.parseInt(ary[0])
+    var d_1 = Number.parseInt(ary[1])
+    var d_2 = Number.parseInt(ary[2])
+    var k = Number.parseInt(ary[3])
+
+    var result = []
+    result.push(0)
+    result.push(x)
+    for(var i=2; i<1001; i++){
+        if(i%2!=0){
+            result.push(Number.parseInt(result[i-1])+d_1)
+        }else{
+            result.push(Number.parseInt(result[i-1])+d_2)
+        }
+    }
+    console.log('STEP: 3 特殊な2項間漸化式 1 ' + result[k])
+}
+step3()
