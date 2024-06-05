@@ -237,6 +237,41 @@ function step10(){
             }
         }
     }
-    console.log(method[n])
+    console.log('STEP: 10 最安値を達成するには 1 ' + method[n])
 }
 step10()
+
+/*
+ * STEP: 11 最安値を達成するには 2
+ *  八百屋にて、りんご2個が a 円で、りんご5個が b 円で売られています。
+ *  りんごの買い方を工夫したとき、n 個のりんごを手に入れるために必要な金額の最小値はいくらでしょうか。
+ *  なお、買い方を工夫した結果、買ったりんごが n+1 個以上になってもよいものとします。
+ */
+function step11(){
+    var lines = ['4 110 200']
+    var ary = lines[0].split(' ')
+    var n = Number.parseInt(ary[0])
+    var a = Number.parseInt(ary[1])
+    var b = Number.parseInt(ary[2])
+    var method = []
+    method.push(0)
+    method.push(a)
+    if( (n>=1 && n<=1000) && (a>=1 && a<=10000) && (b>=1 && b<=10000)){
+        if(a<b){
+            for(var i=2; i<n+5; i++){
+                method.push(0)
+                if(i>=2){
+                    method[i] =Math.max(method[i], method[i-2]+a)
+                }
+                if(i>=5){
+                    method[i] =Math.min(method[i], method[i-5]+b)
+                }
+            }
+            for(var i=n+3; i>=1; i--){
+                method[i] = Math.min(method[i], method[i+1])
+            }
+        }
+    }
+    console.log('STEP: 11 最安値を達成するには 2 ' +method[n])
+}
+step11()
