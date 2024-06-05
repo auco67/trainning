@@ -87,3 +87,37 @@ function step3(){
     console.log('STEP: 3 特殊な2項間漸化式 1 ' + result[k])
 }
 step3()
+
+/*
+ * STEP: 4 特殊な2項間漸化式 2
+ *  整数 x, d_1, d_2, Q と Q 個の整数 k_1, k_2, ... , k_Q が与えられます。
+ *  次のように定められた数列の k_i 項目の値を順に出力してください。
+ *  a_1 = x 
+ *  a_n = a_{n-1} + d_1 (n が奇数のとき、n ≧ 3) 
+ *  a_n = a_{n-1} + d_2 (n が偶数のとき)
+ */
+function step4(){
+    var lines = ['3 7 -4', 5, 1, 2, 3, 4, 10]
+    var ary = lines[0].split(' ')
+    var x = Number.parseInt(ary[0])
+    var d_1 = Number.parseInt(ary[1])
+    var d_2 = Number.parseInt(ary[2])
+    lines.shift()
+    var Q = Number.parseInt(lines[0])
+    lines.shift()
+    var result = []
+    result.push(0)
+    result.push(x)
+    for(var i=2; i<1001; i++){
+        if(i%2!=0){
+            result.push(Number.parseInt(result[i-1])+d_1)
+        }else{
+            result.push(Number.parseInt(result[i-1])+d_2)
+        }
+    }
+    for(i=0; i<Q; i++){
+        var index = Number.parseInt(lines[i])
+        console.log('STEP: 4 特殊な2項間漸化式 2' + result[index])
+    }
+}
+step4()
