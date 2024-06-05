@@ -121,3 +121,28 @@ function step4(){
     }
 }
 step4()
+
+/*
+ * STEP: 5 3項間漸化式 1
+ *  整数 k が与えられます。次のように定められた数列の k 項目の値を出力してください。
+ *  ちなみに、これはフィボナッチ数列と呼ばれる有名な数列です。
+ *  a_1 = 1 
+ *  a_2 = 1 
+ *  a_n = a_{n-2} + a_{n-1} (n ≧ 3)
+ */
+function step5(){
+    var lines = ['7']
+    var k = Number.parseInt(lines[0])
+    var x_1 = 1
+    var x_2 = 1
+    var result = []
+    result.push(0)
+    result.push(x_1)
+    result.push(x_2)
+    for(var i=3; i<1002; i++){
+        result.push(result[i-2]+ result[i-1])
+    }
+    console.log('STEP: 5 3項間漸化式 1 ' + result[k])
+
+}
+step5()
