@@ -985,26 +985,290 @@ function step11() {
   for (var i in lines) {
     if (i < N) {
       var temp = lines[i].split(' ')
-      var p = new point(temp[0], Number.parseInt(temp[1])-1, Number.parseInt(temp[2])-1)
+      var p = new point(temp[0], Number.parseInt(temp[1]) - 1, Number.parseInt(temp[2]) - 1)
       points.push(p)
     } else {
       moves.push(lines[i])
     }
   }
-  var letter = points[S-1].char
-  var now = S-1
-  for(var i=0; i<K; i++){
-    var m = moves[i]-1
+  var letter = points[S - 1].char
+  var now = S - 1
+  for (var i = 0; i < K; i++) {
+    var m = moves[i] - 1
     now = points[now].ary[m]
     letter = letter + points[now].char
   }
   console.log('STEP: 11 出口のない迷路 ' + letter)
-  
 }
-class point{
-  constructor(char, r1, r2){
+class point {
+  constructor(char, r1, r2) {
     this.char = char
-    this.ary = new Array(r1, r2)  
+    this.ary = new Array(r1, r2)
   }
 }
 step11()
+
+/*
+ * STEP: 12 RPG
+ *  A 村にたびたび魔物が訪れるため、 1 〜 N 番の番号が割り当てられた N 人の勇者を雇うことにしました。
+ *  勇者には次のようなステータスを持ちます。
+ *   レベル l_i
+ *   体力 h_i
+ *   攻撃力 a_i
+ *   防御力 d_i
+ *   素早さ s_i
+ *   賢さ c_i
+ *   運 f_i
+ *  また、各勇者には次のようなイベントが発生します。
+ *   levelup h a d s c f
+ *   レベルが 1 上昇
+ *   体力が h 上昇
+ *   攻撃力が a 上昇
+ *   防御力が d 上昇
+ *   素早さが s 上昇
+ *   賢さが c 上昇
+ *   運が f 上昇
+ *
+ *  muscle_training h a
+ *  体力が h 上昇
+ *  攻撃力が a 上昇
+ *  running d s
+ *  防御力が d 上昇
+ *  素早さが s 上昇
+ *  study c
+ *  賢さが c 上昇
+ *  pray f
+ *  運が f 上昇
+ * 各勇者の初期ステータスと起こるイベントの回数、また、起こるイベントとその対象の勇者の番号が与えられるので、
+ * 全てのイベントが終わった後の各勇者のステータスを出力してください。
+ */
+function step12() {
+  var lines = [
+    '1 3',
+    '23 128 533 552 44 69 420',
+    '1 muscle_training 565 241',
+    '1 study 132',
+    '1 levelup 379 585 4 145 276 8',
+  ]
+  var ary = lines[0].split(' ')
+  var N = Number.parseInt(ary[0])
+  var K = Number.parseInt(ary[1])
+  lines.shift()
+  ary = lines[0].split(' ')
+  var braves = []
+  var ivents = []
+  for (var i = 0; i < lines.length; i++) {
+    var ay = lines[i].split(' ')
+    if (i < N) {
+      var brave = new Brave(
+        Number.parseInt(ay[0]),
+        Number.parseInt(ay[1]),
+        Number.parseInt(ay[2]),
+        Number.parseInt(ay[3]),
+        Number.parseInt(ay[4]),
+        Number.parseInt(ay[5]),
+        Number.parseInt(ay[6]),
+      )
+      braves.push(brave)
+    } else {
+      ivents.push(lines[i])
+    }
+  }
+
+  for (var i = 0; i < K; i++) {
+    var temp = ivents[i].split(' ')
+    var bNum = temp[0] - 1
+    var ivent = temp[1]
+    if (ivent == 'levelup') {
+      braves[bNum].levelUp(
+        Number.parseInt(temp[2]),
+        Number.parseInt(temp[3]),
+        Number.parseInt(temp[4]),
+        Number.parseInt(temp[5]),
+        Number.parseInt(temp[6]),
+        Number.parseInt(temp[7]),
+      )
+    } else if (ivent == 'muscle_training') {
+      braves[bNum].muscleTrainning(Number.parseInt(temp[2]), Number.parseInt(temp[3]))
+    } else if (ivent == 'running') {
+      braves[bNum].running(Number.parseInt(temp[2]), Number.parseInt(temp[3]))
+    } else if (ivent == 'study') {
+      braves[bNum].study(Number.parseInt(temp[2]))
+    } else if (ivent == 'pray') {
+      braves[bNum].pray(Number.parseInt(temp[2]))
+    }
+  }
+  braves.forEach((brave) => {
+    console.log('STEP: 12 RPG ' + brave.getStatus())
+  })
+}
+class Brave {
+  constructor(level, physical, offensive, defense, agility, wisdom, luck) {
+    this.level = level
+    this.physical = physical
+    this.offensive = offensive
+    this.defense = defense
+    this.agility = agility
+    this.wisdom = wisdom
+    this.luck = luck
+  }
+
+  levelUp(p, o, d, a, w, l) {
+    this.level += 1
+    this.physical += p
+    this.offensive += o
+    this.defense += d
+    this.agility += a
+    this.wisdom += w
+    this.luck += l
+  }
+
+  muscleTrainning(p, o) {
+    this.physical += p
+    this.offensive += o
+  }
+
+  running(d, a) {
+    this.defense += d
+    this.agility += a
+  }
+
+  study(w) {
+    this.wisdom += w
+  }
+
+  pray(l) {
+    this.luck += l
+  }
+
+  getStatus() {
+    return (
+      this.level +
+      ' ' +
+      this.physical +
+      ' ' +
+      this.offensive +
+      ' ' +
+      this.defense +
+      ' ' +
+      this.agility +
+      ' ' +
+      this.wisdom +
+      ' ' +
+      this.luck
+    )
+  }
+}
+step12()
+
+/*
+ * STEP: 13 格闘ゲーム
+ * 友達の家で N 人で遊んでいる A 君は格闘ゲームを遊ぶことにしました。格闘ゲームのルールは次の通りです。
+ *  ・各プレイヤーは 決まった hp と 3 種類の技を持っていて、技には強化系の技と攻撃の技があり、各攻撃技には技を出すための発生フレーム F
+ *  　とダメージ A が設定されている。
+ *  ・hp が 0 になったプレイヤーは退場となる。
+ *  ・あるプレイヤー 1 が、他のプレイヤーにある技 T_1 (発生フレーム F_1 , 攻撃力 A_1) を使って攻撃した場合、攻撃を受けたプレイヤー 2 は
+ *  　反撃の技 T_2 (発生フレーム F_2 , 攻撃力 A_2) を選ぶ。その後、次のようなルールに従っていずれかのプレイヤーにダメージが入る。
+ *  どちらか片方でもプレイヤーが退場している場合、互いに何も起こらない。
+ *  強化系の技を使った場合、使ったプレイヤーの他の全ての技の発生フレーム（最短 1 フレーム) を -3 , 攻撃力を +5 する。
+ *  相手が攻撃技を使っていた場合、その攻撃の攻撃力分 hp が減少する。
+ *  互いに攻撃技を使った場合
+ *   ・ F_1 < F_2 のとき、プレイヤー 2 の hp が A_1 減る
+ *   ・ F_1 > F_2 のとき、プレイヤー 1 の hp が A_2 減る
+ *   ・ F_1 = F_2 のとき、何も起こらない
+ *  各プレイヤーの持っている技についての情報と、技が出された回数、使われた技の詳細が与えられるので、全ての技が使われた後に場に
+ *  残っているプレイヤーの人数を答えてください。
+ */
+function step13() {
+  //var lines = ['3 6', '10 1 1 2 2 3 3', '10 0 0 6 1 7 2', '10 0 0 7 5 8 3', '1 1 2 2', '1 2 3 2', '1 3 2 3',
+  //              '2 2 3 1', '2 3 3 1', '1 2 3 2']
+  var lines = ['3 6', '10 1 1 2 2 3 3', '10 0 0 6 1 7 2', '10 0 0 7 5 8 3', '1 1 2 2', '1 2 3 2', '1 3 2 3',
+                '2 2 3 1', '2 3 3 1', '1 2 3 2']
+  var ary = lines[0].split(' ')
+  var N = Number.parseInt(ary[0])
+  var K = Number.parseInt(ary[1])
+  lines.shift()
+  var players = []
+  var fights = []
+  for (var i = 0; i < lines.length; i++) {
+    var ay = lines[i].split(' ')
+    if (i < N) {
+      var player = new Player(
+        Number.parseInt(ay[0]),
+        Number.parseInt(ay[1]),
+        Number.parseInt(ay[2]),
+        Number.parseInt(ay[3]),
+        Number.parseInt(ay[4]),
+        Number.parseInt(ay[5]),
+        Number.parseInt(ay[6]))
+      players.push(player)
+    } else {
+      fights.push(lines[i])
+    }
+  }
+  fights.forEach((fight) => {
+    var temp = fight.split(' ')
+    var pNo1 = Number.parseInt(temp[0]) - 1
+    var p1_sts = players[pNo1].attack(pNo1)
+    var pNo2 = Number.parseInt(temp[2]) - 1
+    var p2_sts = players[pNo2].attack(pNo2)
+    if (players[pNo1].hp > 0 && players[pNo2].hp > 0) {
+      if ((p1_sts[0] == 0 && p1_sts[1] == 0) && (p2_sts[0] == 0 && p2_sts[1] == 0)) {
+        players[pNo1].specialTech()
+        players[pNo2].specialTech()
+      }
+      if (p1_sts[0] == 0 && p1_sts[1] == 0) {
+        players[pNo1].specialTech()
+        players[pNo2].damage(p2_sts[1])
+      }
+      if (p2_sts[0] == 0 && p2_sts[1] == 0) {
+        players[pNo2].specialTech()
+        players[pNo1].damage(p1_sts[1])
+      }
+      if (p1_sts[0] < p2_sts[0]) {
+        players[pNo2].damage(p2_sts[1])
+      } else if (p1_sts[0] > p2_sts[0]) {
+        players[pNo1].damage(p1_sts[1])
+      }
+    }
+  })
+  var num = 0
+  players.forEach((player) => {
+    if (player.hp > 0) {
+      num++
+    }
+  })
+  console.log('STEP: 13 格闘ゲーム ' + num)
+}
+class Player {
+  constructor(hp, f1, o1, f2, o2, f3, o3) {
+    this.hp = hp
+    this.frame = [f1, f2, f3]
+    this.offensive = [o1, o2, o3]
+  }
+  attack(playerNo) {
+    if (playerNo == 0) {
+      return [this.frame[0], this.offensive[0]]
+    } else if (playerNo == 1) {
+      return [this.frame[1], this.offensive[1]]
+    } else if (playerNo == 2) {
+      return [this.frame[2], this.offensive[2]]
+    }
+  }
+
+  damage(score) {
+    this.hp -= score
+  }
+
+  specialTech() {
+    for(var i=0; i<3; i++){
+      this.frame[i] = Math.max(1, (this.frame[i]-3))
+      this.offensive[i] += 5
+    }
+  }
+
+  hp() {
+    return this.hp
+  }
+}
+step13()
