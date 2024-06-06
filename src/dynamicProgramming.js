@@ -275,3 +275,140 @@ function step11(){
     console.log('STEP: 11 最安値を達成するには 2 ' +method[n])
 }
 step11()
+
+/*
+ * STEP: 12 最安値を達成するには 3
+ *  八百屋にて、りんご x 個が a 円で、りんご y 個が b 円で売られています。
+ *  りんごの買い方を工夫したとき、最終的に n 個のりんごを手に入れるために必要な金額の最小値はいくらでしょうか。
+ *  なお、買い方を工夫した結果、買ったりんごが n+1 個以上になってもよいものとします。
+ */
+function step12(){
+    var lines = ['513 52 4492 593 9803']
+    var ary = lines[0].split(' ')
+    var n = Number.parseInt(ary[0])
+    var x = Number.parseInt(ary[1])
+    var a = Number.parseInt(ary[2])
+    var y = Number.parseInt(ary[3])
+    var b = Number.parseInt(ary[4])
+    var method = []
+    for(var i=0; i<x+n+y; i++) method.push(0)
+    if( (n>=1 && n<=1000) && 
+        (x>=1 && x<=1000) && 
+        (y>=1 && y<=1000) && 
+        (a>=1 && a<=10000) && 
+        (b>=1 && b<=10000)){
+        if(a<b){
+            for(var i=x; i<n+y; i++){
+                if(i>=x){
+                    method[i] =Math.max(method[i], method[i-x]+a)
+                }
+                if(i>=y){
+                    method[i] =Math.min(method[i], method[i-y]+b)
+                }
+            }
+            for(var i=n+(y-2); i>=1; i--){
+                method[i] = Math.min(method[i], method[i+1])
+            }
+        }
+    }
+    console.log(method[n])
+}
+step12()
+
+/*
+ * STEP: 13 最安値を達成するには 4
+ *  
+ */
+
+/*
+ * STEP: 14 最長増加連続部分列
+ *  n 人が横一列に並んでいます。左から i 番目の人を人 i と呼ぶことにします。人 i の身長は a_i [cm]です。
+ *  人 l ,人 l+1, ... , 人 r からなる区間 [l, r] について、すべての l ≦ i < r に対して a_i ≦ a_{i+1} が成り立っているとき、
+ *  区間 [l, r] は背の順であると呼ぶことにします。また、区間 [l, r] の長さを r-l+1 とします。
+ *  背の順であるような区間のうち、最長であるものの長さを出力してください。
+ */
+function step14(){
+    var lines = [5, 160, 178, 170, 190, 190]
+    var n = Number.parseInt(lines[0])
+    
+    if(n>=1 && n<=200000){
+        if(n==1) {
+            console.log(1)
+        }else{
+            lines.shift()
+            var dp = []
+            dp.push(0)
+            for(var i=1; i<lines.length; i++){
+                var a_i = Number.parseInt(lines[i-1])
+                var a = Number.parseInt(lines[i])
+                if(a_i<=a){
+                    dp.push(dp[i-1]+1)
+                }else{
+                    dp.push(1)
+                }
+            }
+            console.log(Math.max(...dp))
+        }
+    }
+}
+step14()
+
+/*
+ * STEP: 15 【連続列】最長減少連続部分列
+ *  n 人が横一列に並んでいます。左から i 番目の人を人 i と呼ぶことにします。人 i の身長は a_i [cm]です。
+ *  人 l ,人 l+1, ... , 人 r からなる区間 [l, r] について、すべての l ≦ i < r に対して a_i ≧ a_{i+1} が成り立っているとき、
+ *  区間 [l, r] は逆背の順であると呼ぶことにします。また、区間 [l, r] の長さを r-l+1 とします。
+ *  逆背の順であるような区間のうち、最長であるものの長さを出力してください。
+ */
+function step15(){
+    var lines = [5, 190, 190, 170, 178, 164]
+    var n = Number.parseInt(lines[0])
+    
+    if(n>=1 && n<=200000){
+        if(n==1) {
+            console.log(1)
+        }else{
+            lines.shift()
+            var dp = []
+            dp.push(0)
+            for(var i=1; i<=lines.length; i++){
+                var a_i = Number.parseInt(lines[i-1])
+                var a = Number.parseInt(lines[i])
+                if(a_i>=a){
+                    dp.push(dp[i-1]+1)
+                }else{
+                    dp.push(1)
+                }
+            }
+            console.log(Math.max(...dp))               
+        }
+    }
+}
+step15()
+
+/* 
+ * STEP: 16 最長部分増加列
+ *  n 本の木が横一列に並んでいます。左から i 番目の木を木 i と呼ぶことにします。木 i の高さは a_i [cm] です。
+ *  あなたは、何本かの木を伐採することによって、残った木を左から順に見ると高さが単調増加になっているようにしたいと考えています。
+ *  つまり、残った木を左から 木 k_1, 木 k_2, ... , 木 k_m とすると、a_{k_1} < a_{k_2} < ... < a_{k_m} が満たされているようにしたいです。
+ *  なるべく多くの木が残るように、伐採する木を工夫して選んだとき、伐採されずに残る木の本数が最大でいくつになるか求めてください。
+ *  なお、最初から n 本の木が単調増加に並んでいる場合は、1本も伐採しなくてよいものとします。
+ */
+function step16(){
+    var lines = [5, 100, 102, 101, 91, 199]
+    var n = Number.parseInt(lines[0])
+    lines.shift()
+    var dp = []
+    for(var i=0; i<n; i++) dp.push(0)
+    dp[1] = 1
+    for(i=0; i<n; i++){
+        dp[i] = 1
+        for(var j=0; j<i; j++){
+            if(lines[j]<lines[i]){
+                dp[i] = Math.max(dp[i], dp[j]+1)
+            }
+        }
+    }
+    console.log(Math.max(...dp))
+}
+step16()
