@@ -254,3 +254,114 @@ function step4(){
   }
 }
 step4()
+
+/*
+ * STEP: 5 【シミュレーション 1】反復横跳び
+ * 
+ */
+
+/*
+ * STEP: 6 【シミュレーション 2】perfect shuffle
+ * 
+ */
+
+/*
+ * STEP: 7 【シミュレーション 3】燃費
+ * 
+ */
+
+/*
+ * STEP: 8 【シミュレーション 4】位置情報システム
+ * 
+ */
+
+/*
+ * STEP: 9 【条件判定 1】郵便料金
+ *  A 国の郵便局では 縦 y(cm), 横 x(cm), 高さ h(cm) の荷物を送るのに必要な郵便料金が次のようなルールで決まっています。
+ *  高さが l_1 cm 以下の場合
+ *   縦と横の長い方の長さが l_2 以下の場合・・・m_1(円)
+ *   縦と横の長さの和が l_3 以下の場合・・・m_2(円)
+ *   それ以外の場合・・・m_3(円)
+ *  それ以外の場合
+ *   縦と横と高さのうち最も長いものの長さが l_4 以下の場合・・・m_4(円)
+ *   縦と横と高さの長さの和が l_5 以下の場合・・・m_5(円)
+ *   それ以外の場合・・・送るものの体積(cm3) × m_6(円)
+ *  判定に必要な定数と送る荷物の縦・横・高さの値が与えられるので、必要な郵便料金を求めてください。
+ *  なお、料金を決めるルールは上に書かれているものから順に判定していくものとします。
+ */
+function step9(){
+  //var lines =['5 6 7','10 9 8 7 6','1 2 3 4 5 6']
+  var lines = ['10 20 30','10 10 10 10 10','100 200 300 400 500 600']
+  var ary = lines[0].split(' ')
+  var v = Number.parseInt(ary[0])
+  var w = Number.parseInt(ary[1])
+  var h = Number.parseInt(ary[2])
+  var conditions = lines[1].split(' ')
+  var fees = lines[2].split(' ')
+  var result = 0
+  if(h <= Number.parseInt(conditions[0])){
+    if(Math.max(v, w) <= Number.parseInt(conditions[1])){
+      result = Number.parseInt(fees[0])
+    }else if((v+w) <= Number.parseInt(conditions[2])){
+      result = Number.parseInt(fees[1])
+    }else{
+      result = Number.parseInt(fees[2])
+    }
+  }else{
+    if(Math.max(v,w,h) <= Number.parseInt(conditions[3])){
+      result = Number.parseInt(fees[3])
+    }else if((v+w+h) <= Number.parseInt(conditions[4])){
+      result = Number.parseInt(fees[4])
+    }else{
+      result = (v*w*h) * Number.parseInt(fees[5])
+    }
+  }
+  console.log('STEP: 9 ' + result)
+}
+step9()
+
+/*
+ * STEP: 10 【条件判定 2】視力検査
+ *  定期検診の一環として視力検査をおこなうことになりました。
+ *  そこで、保健委員の A 君はクラスの視力検査の手伝いをすることになりました。視力検査の概要は次の通りです。
+ *   ・視力を良い方から順に A, B, C, D, E の 5 段階で判定します。
+ *   ・各段階の視力であることを検査するためのテスト TA, TB, TC, TD が用意されており、A 君がこれらのうちのいずれかを被験者に見せ、
+ *     被験者が正しく解答した場合を「成功」、正しく解答できなかった場合を「失敗」とします。
+ *   ・同じ段階のテストに 2 回失敗する前に 2 回成功した場合、その段階について「合格」、それ以外の場合を「不合格」とします。
+ *   ・合格した段階のうち、最も良い段階をその被験者の視力として判定します。
+ *   ・どのレベルのテストにも合格しなかった場合、被験者の視力は E として扱います。
+ *  ある被験者に対しておこなったテストとその結果が与えられるので、被験者の視力を判定してください。
+ */
+function step10(){
+  //var lines = [4,'TA ok','TA ng','TA ng','TA ok']
+  var lines = [4,'TB ok','TC ok','TC ok','TB ok']
+  lines.shift()
+  var test_name = ['TA','TB','TC','TD']
+  var level_name = ['A', 'B', 'C', 'D', 'E']
+  var ok = [0,0,0,0]
+  var ng = [0,0,0,0]
+  var tester_level = 4
+
+  for(var i=0; i<lines.length; i++){
+    var ary = lines[i].split(' ')
+    var lank = ary[0]
+    var result = ary[1]
+    for(var j=0; j<test_name.length; j++){
+      if(lank==test_name[j]){
+        if(result=='ok'){
+          ok[j]++
+        }
+        if(result=='ng'){
+          ng[j]++
+        }
+      }
+      if(ok[j]==2 && ng[j]<2){
+        tester_level = Math.min(tester_level,j)
+      }
+    }
+  }
+  
+  console.log('STEP: 10 ' + level_name[tester_level])
+
+}
+step10()
