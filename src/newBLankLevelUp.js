@@ -319,3 +319,49 @@ function step9(){
   console.log('STEP: 9 ' + result)
 }
 step9()
+
+/*
+ * STEP: 10 【条件判定 2】視力検査
+ *  定期検診の一環として視力検査をおこなうことになりました。
+ *  そこで、保健委員の A 君はクラスの視力検査の手伝いをすることになりました。視力検査の概要は次の通りです。
+ *   ・視力を良い方から順に A, B, C, D, E の 5 段階で判定します。
+ *   ・各段階の視力であることを検査するためのテスト TA, TB, TC, TD が用意されており、A 君がこれらのうちのいずれかを被験者に見せ、
+ *     被験者が正しく解答した場合を「成功」、正しく解答できなかった場合を「失敗」とします。
+ *   ・同じ段階のテストに 2 回失敗する前に 2 回成功した場合、その段階について「合格」、それ以外の場合を「不合格」とします。
+ *   ・合格した段階のうち、最も良い段階をその被験者の視力として判定します。
+ *   ・どのレベルのテストにも合格しなかった場合、被験者の視力は E として扱います。
+ *  ある被験者に対しておこなったテストとその結果が与えられるので、被験者の視力を判定してください。
+ */
+function step10(){
+  //var lines = [4,'TA ok','TA ng','TA ng','TA ok']
+  var lines = [4,'TB ok','TC ok','TC ok','TB ok']
+  lines.shift()
+  var test_name = ['TA','TB','TC','TD']
+  var level_name = ['A', 'B', 'C', 'D', 'E']
+  var ok = [0,0,0,0]
+  var ng = [0,0,0,0]
+  var tester_level = 4
+
+  for(var i=0; i<lines.length; i++){
+    var ary = lines[i].split(' ')
+    var lank = ary[0]
+    var result = ary[1]
+    for(var j=0; j<test_name.length; j++){
+      if(lank==test_name[j]){
+        if(result=='ok'){
+          ok[j]++
+        }
+        if(result=='ng'){
+          ng[j]++
+        }
+      }
+      if(ok[j]==2 && ng[j]<2){
+        tester_level = Math.min(tester_level,j)
+      }
+    }
+  }
+  
+  console.log('STEP: 10 ' + level_name[tester_level])
+
+}
+step10()
