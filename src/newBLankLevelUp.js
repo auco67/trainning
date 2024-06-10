@@ -131,3 +131,77 @@ function step2() {
   })
 }
 step2()
+
+/*
+ * STEP: 3 【マップの扱い 3】マップの判定・縦横斜め
+ *  マップの行数 H と列数 W とマップを表す H 行 W 列の文字列 S_1 ... S_H と y , x 座標 が与えられるので、
+ *  与えられた座標のマス(y, x) と、 (y, x) と同じ縦・横・斜めの列に存在する全てのマスについて次の処理をおこなった後の盤面を出力してください。
+ *  マスに書かれている文字が "." の場合は "#" に、"#" の場合は "." に書き換える。
+ *  なお、マスの座標系は左上端のマスの座標を ( y , x ) = ( 0 , 0 ) とし、下方向が y 座標の正の向き、右方向が x 座標の正の向きとします。
+ *  マス(y,x) と同じ斜めの列とは整数 a を用いて (y+a,x+a), (y+a,x-a), (y-a,x-a), (y-a,x+a) のいずれかで表されるマスの集合です。
+ */
+function step3(){
+  //var lines = ['3 3', '##.', '###', '...', '0 0']
+  var lines = ['10 10','##########', '..........', '##########',
+    '##########', '..........', '#.#.#.#.#.', 
+    '.#.#.#.#.#', '#.#.#.#.#.', '.#.#.#.#.#',
+    '..........','5 5']
+  var ary = lines[0].split(' ')
+  var H = Number.parseInt(ary[0])
+  var W = Number.parseInt(ary[1])
+  lines.shift()
+
+  var coordinate = lines[lines.length - 1].split(' ')
+  var y = Number.parseInt(coordinate[0])
+  var x = Number.parseInt(coordinate[1])
+  var move = [-1,1]
+
+  var board = []
+  for (var i = 0; i <H; i++) {
+    board[i] = []
+    for(var j=0; j<lines[i].length; j++){
+      board[i][j] = lines[i].slice(j,j+1)
+    }
+  }
+
+  for(i=0; i<H; i++){
+    board[i][x] = moveStr(board[i][x])
+  }
+  for(i=0; i<W; i++){
+    board[y][i] = moveStr(board[y][i])
+  }
+  for(i=1; i<Math.min(H, W); i++){
+    if (y+i<H) {
+      if(x+i<W) {
+        board[y+i][x+i] = moveStr(board[y+i][x+i])
+      }
+      if(0<=x-i){
+        board[y+i][x-i] = moveStr(board[y+i][x-i])
+      } 
+    }
+    if (0<=y-i) {
+      if(x+i<W) {
+        board[y-i][x+i] = moveStr(board[y-i][x+i])
+      }
+      if(0<=x-i){
+        board[y-i][x-i] = moveStr(board[y-i][x-i])
+      } 
+    }
+  }
+  board[y][x] = moveStr(board[y][x])
+
+  board.forEach(b=>{
+    str = b.join()
+    str = str.replaceAll(',','')
+    console.log('STEP: 3 ' +str)
+  })
+}
+function moveStr(char){
+  if(char=='.'){
+    return '#'
+  }
+  if(char=='#'){
+    return '.'
+  }
+}
+step3()
