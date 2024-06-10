@@ -51,11 +51,11 @@ step1()
  *  なお、マスの座標系は左上端のマスの座標を ( y , x ) = ( 0 , 0 ) とし、下方向が y 座標の正の向き、右方向が x 座標の正の向きとします。
  */
 function step2() {
-  //var lines = ['3 3', '##.', '###', '...', '1 1']
-  var lines = ['10 10','##########', '..........', '##########',
-                '##########', '..........', '#.#.#.#.#.', 
-                '.#.#.#.#.#', '#.#.#.#.#.', '.#.#.#.#.#',
-                '..........','2 3']
+  var lines = ['3 3', '##.', '###', '...', '1 1']
+  //var lines = ['10 10','##########', '..........', '##########',
+  //              '##########', '..........', '#.#.#.#.#.', 
+  //              '.#.#.#.#.#', '#.#.#.#.#.', '.#.#.#.#.#',
+  //              '..........','2 3']
   
   var ary = lines[0].split(' ')
   var H = Number.parseInt(ary[0])
@@ -80,46 +80,14 @@ function step2() {
   })
   for(i=0; i<board.length; i++){
     for(var j=0; j<board[i].length; j++){
-      if(i==(y+move[0])){
-        if(j==x){
-          if(board[i][j]=='.'){
-            board[i][j] = '#'
-          }else{
-            board[i][j] = '.'
-          }
-        }
-      }
+      if(i==(y+move[0])) board[i][j] = moveStr(board[i][j])
       if(i==y){
-        if(j==(x+move[0])){
-          if(board[i][j]=='.'){
-            board[i][j] = '#'
-          }else{
-            board[i][j] = '.'
-          }
-        }
-        if(j==x){
-          if(board[i][j]=='.'){
-            board[i][j] = '#'
-          }else{
-            board[i][j] = '.'
-          }
-        }
-        if(j==(x+move[1])){
-          if(board[i][j]=='.'){
-            board[i][j] = '#'
-          }else{
-            board[i][j] = '.'
-          }
-        }
+        if(j==(x+move[0])) board[i][j] = moveStr(board[i][j])
+        if(j==x) board[i][j] = moveStr(board[i][j])
+        if(j==(x+move[1])) board[i][j] = moveStr(board[i][j])
       }
       if(i==(y+move[1])){
-        if(j==x){
-          if(board[i][j]=='.'){
-            board[i][j] = '#'
-          }else{
-            board[i][j] = '.'
-          }
-        }
+        if(j==x) board[i][j] = moveStr(board[i][j])
       }
     }
   }
@@ -131,6 +99,14 @@ function step2() {
   })
 }
 step2()
+function moveStr(char){
+  if(char=='.'){
+    return '#'
+  }
+  if(char=='#'){
+    return '.'
+  }
+}
 
 /*
  * STEP: 3 【マップの扱い 3】マップの判定・縦横斜め
@@ -196,12 +172,85 @@ function step3(){
     console.log('STEP: 3 ' +str)
   })
 }
-function moveStr(char){
-  if(char=='.'){
-    return '#'
+step3()
+
+/* 
+ * STEP: 4 【マップの扱い 4】マップのナンバリング
+ *  マップの行数 H と列数 W とナンバリングの向き D が与えられるので、(0, 0) から指示通りにナンバリングしたとき、
+ *  マップ全体にどのように番号が振られるかを出力してください。
+ *  なお、マスの座標系は左上端のマスの座標を ( y , x ) = ( 0 , 0 ) とし、下方向が y 座標の正の向き、右方向が x 座標の正の向きとします。
+ */
+function step4(){
+  var lines =['2 2 3']
+  var ary = lines[0].split(' ')
+  var H = Number.parseInt(ary[0])
+  var W = Number.parseInt(ary[1])
+  var D = Number.parseInt(ary[2])
+  var ans = []
+  for (var i=0; i<H; i++) {
+    ans[i] = []
+    for(var j=0; j<W; j++){
+      ans[i][j] = 0
+    }
   }
-  if(char=='#'){
-    return '.'
+  var counter = 1
+  
+  switch(D){
+    case 1:
+      ans[0][0] = 1
+      counter++
+      for(i=1; i<H; i++){
+        for(j=0; j<=Math.min(i,W-1); j++){
+          ans[i-j][j] = counter
+          counter++
+        }
+      }
+      
+      for(i=1; i<W; i++){
+        for(j=0; j<Math.min(H,W-i); j++){
+          ans[H-1-j][i+j] = counter
+          counter++
+        }
+      }
+      break
+    case 2:
+      for(i=0; i<H; i++){
+        for(j=0; j<W; j++){
+          ans[i][j] = counter
+          counter++
+        }
+      }
+      break
+    case 3:
+      for(i=0; i<W; i++){
+        for(j=0; j<H; j++){
+          ans[j][i] = counter
+          counter++
+        }
+      }
+      break
+    case 4:
+      ans[0][0] = 1
+      counter++
+      for(i=1; i<W; i++){
+        for(j=0; j<=Math.min(i,H-1); j++){
+          ans[j][i-j] = counter
+          counter++
+        }
+      }
+      
+      for(i=1; i<H; i++){
+        for(j=0; j<Math.min(H-i,W); j++){
+          ans[i+j][W-1-j] = counter
+          counter++
+        }
+      }
+    
+  }
+  for(var b in ans){
+    str = ans[b].join()
+    str = str.replaceAll(',',' ')
+    console.log('STEP: 4 ' +str)
   }
 }
-step3()
+step4()
