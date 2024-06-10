@@ -254,3 +254,68 @@ function step4(){
   }
 }
 step4()
+
+/*
+ * STEP: 5 【シミュレーション 1】反復横跳び
+ * 
+ */
+
+/*
+ * STEP: 6 【シミュレーション 2】perfect shuffle
+ * 
+ */
+
+/*
+ * STEP: 7 【シミュレーション 3】燃費
+ * 
+ */
+
+/*
+ * STEP: 8 【シミュレーション 4】位置情報システム
+ * 
+ */
+
+/*
+ * STEP: 9 【条件判定 1】郵便料金
+ *  A 国の郵便局では 縦 y(cm), 横 x(cm), 高さ h(cm) の荷物を送るのに必要な郵便料金が次のようなルールで決まっています。
+ *  高さが l_1 cm 以下の場合
+ *   縦と横の長い方の長さが l_2 以下の場合・・・m_1(円)
+ *   縦と横の長さの和が l_3 以下の場合・・・m_2(円)
+ *   それ以外の場合・・・m_3(円)
+ *  それ以外の場合
+ *   縦と横と高さのうち最も長いものの長さが l_4 以下の場合・・・m_4(円)
+ *   縦と横と高さの長さの和が l_5 以下の場合・・・m_5(円)
+ *   それ以外の場合・・・送るものの体積(cm3) × m_6(円)
+ *  判定に必要な定数と送る荷物の縦・横・高さの値が与えられるので、必要な郵便料金を求めてください。
+ *  なお、料金を決めるルールは上に書かれているものから順に判定していくものとします。
+ */
+function step9(){
+  //var lines =['5 6 7','10 9 8 7 6','1 2 3 4 5 6']
+  var lines = ['10 20 30','10 10 10 10 10','100 200 300 400 500 600']
+  var ary = lines[0].split(' ')
+  var v = Number.parseInt(ary[0])
+  var w = Number.parseInt(ary[1])
+  var h = Number.parseInt(ary[2])
+  var conditions = lines[1].split(' ')
+  var fees = lines[2].split(' ')
+  var result = 0
+  if(h <= Number.parseInt(conditions[0])){
+    if(Math.max(v, w) <= Number.parseInt(conditions[1])){
+      result = Number.parseInt(fees[0])
+    }else if((v+w) <= Number.parseInt(conditions[2])){
+      result = Number.parseInt(fees[1])
+    }else{
+      result = Number.parseInt(fees[2])
+    }
+  }else{
+    if(Math.max(v,w,h) <= Number.parseInt(conditions[3])){
+      result = Number.parseInt(fees[3])
+    }else if((v+w+h) <= Number.parseInt(conditions[4])){
+      result = Number.parseInt(fees[4])
+    }else{
+      result = (v*w*h) * Number.parseInt(fees[5])
+    }
+  }
+  console.log('STEP: 9 ' + result)
+}
+step9()
