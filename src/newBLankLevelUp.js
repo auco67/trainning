@@ -1,3 +1,5 @@
+const { FAILSAFE_SCHEMA } = require("js-yaml")
+
 /*
  * STEP: 1【マップの扱い 1】マップの書き換え・1 マス
  *  行数 H , 列数 W の盤面があり、各マスには文字が 1 つだけ書かれています。盤面と y , x 座標 が与えられるので、
@@ -466,13 +468,117 @@ step16()
 
 /*
  * STEP: 17 【文字列 2】super long int
- * 
+ *  整数型が用意されている言語では、int や long int といった型を用いて数値を保持することが多いです。
+ *  しかし、これらの型は扱える値の上限が 10^10 程度にされていることが多いです。
+ *  そこで A 君は新たに 32 桁の数字を受け取ることができる型 super long int を定義することにしました。
+ *  また super long int 型の値 X から int 型のハッシュ値を求める関数 hash(X) を次の通り定義しました。
+ *  hash(X) = X を 8 桁ずつに区切って得られる 4 つの 8 桁の数字の和
+ *  super long int 型の値 X が与えられるので、hash(X) の値を求めてください。
  */
+function step17(){
+  var lines = ['11111111111111111111111111111111']
+  //var lines = ['36585594857520029384829183475638']
+  var numbers = []
+  if(lines[0].length==32 && lines[0].slice(0,1)!=0){
+    for(var i=0; i<32; i++){
+      numbers.push(lines[0].slice(i,i+8))
+      i+=7
+    }
+    var result = 0
+    numbers.forEach(number=>{
+      result = result + Number.parseInt(number)
+    })
+    console.log('STEP: 17 ' + result)
+  }
+}
+step17()
 
 /*
  * STEP: 18 【文字列 3】p4!2@
- * 
+ *  英単語に含まれるアルファベットの一部を形の似た数字や記号で置き換えることを Leet といいます。
+ *  Leet はパスワードやユーザー名の作成の際に便利な手法の一つです。
+ *  paiza では、エゴサーチを強化するためにツイートの中に Leet 表記された paiza が含まれているかを判定するプログラムを作成することになりました。
+ *  ツイートの文章 S が与えられるので、ツイートに "paiza" が含まれる場合は "paiza", "paiza" が含まれず Leet 表記された "paiza" が含まれる場合は 
+ *  "leet", どちらも含まれない場合は "nothing" と出力してください。
+ *  なお、"paiza" の leet 文字列は、"paiza" について以下の置き換えを 1 回以上おこなうことで得られる文字列をさすものとします。
+ *   ・a -> 4 または a -> @
+ *   ・i -> 1 または i -> !
+ *   ・z -> 2
  */
+function step18(){
+  var lines = ['leetp@1za']
+  //var lines = ['nopaizanostudy']
+  //var lines = ['uy3xym9gha63ab']
+  //var lines = ['976t72hg9vy8ohcfe0x23t82hlmxi5tkh6468vc2fr8e42d4ti75dwpjbr2fk7p4iza8ejel0d9r77fulnxe1ota5122znxpk2']
+  //var lines = ['nrv7e8kxacr1pme6fgvctgojhnx19xl5hm9o5t231gzaujqhaodnick88zs36h8x376fp@iz@0pyc3pxnd4l5jwd4esb4nsz']
+  //var lines = ['8lpo4fxbz7myigv39sk']
+  var paiza = 'paiza'
+  var repChar_a = ['4','@','a']
+  var repChar_i = ['1','l','i']
+  var repChar_z = ['2','z']
+  var pFlg = false
+  for(var i=0; i<lines[0].length; i++){
+    var char = lines[0].slice(i,i+1)
+    
+    if(char=='p'){
+      pFlg = true
+      var c = 1
+      while(c<paiza.length){
+        var char2 = lines[0].slice(i+c,i+c+1)
+        var flg = false
+        switch(c){
+          case 1:
+          case 4:
+            for(var ra in repChar_a){
+              if(repChar_a[ra]==char2){
+                flg = true
+                break
+              }
+            }
+            break
+
+          case 2:
+            for(var ri in repChar_i){
+              if(repChar_i[ri]==char2){
+                flg = true
+                break
+              }
+            }
+            break
+
+          case 3:   
+            for(var rz in repChar_z){
+              if(repChar_z[rz]==char2){
+                flg = true
+                break
+              }
+            }
+            break
+        }
+        c++
+      }
+      if(flg) {
+        if(lines[0].slice(i,i+paiza.length)==paiza){
+          console.log('STEP: 18 ' + paiza)
+        }else{
+          console.log('STEP: 18 leet')
+        }
+        break
+      }else{
+        if(i+paiza.length>lines[0].length){
+          console.log('STEP: 18 notihng')
+          break
+        }else{
+          pFlg = false
+        }
+      }
+    }
+  }
+  if(pFlg==false){
+    console.log('STEP: 18 nothing')
+  }
+}
+step18()
 
 /*
  * STEP: 19 【配列 1】平面で計算
