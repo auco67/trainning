@@ -365,3 +365,47 @@ function step10(){
 
 }
 step10()
+
+/*
+ * STEP: 11 【条件判定 3】過剰コンプライアンス
+ *  君主の A 国王によって情報統制が厳しくなった A 国では、今回新たに使用禁止用語の検閲についての次のような法律ができました。
+ *    今後、放送禁止単語 S と文字数が同じで、前半分または後ろ半分が同じ文字である単語 V を放送する時は、放送禁止用語と
+ *    重なっている部分（前半分または後ろ半分）の文字を全て x で置き換えた単語を放送する。また、V が放送禁止用語と完全に
+ *    一致する場合は V を放送せず、代わりに "banned" と出力する。
+ *  放送禁止用語 S と N 個の放送したい単語 V_1, ..., V_N が与えられるので、検閲をおこなった後の V_1, ..., V_N を出力してください。
+ */
+function setp11(){
+  var lines = [5,'paiza','paaaa','paiza','paisa','zaiza','ab']
+  //var lines = [1,'ab','abababa']
+  //var lines = [7,'xcerrbqy','tnkzdgkj','ibmbrbqy','xcerrbqy','xcerrbqy','aidzhqsp','xcerdeig','ajxudrtx']
+  var N = lines[0]
+  lines.shift()
+  var S = lines[0]
+  var lenS = S.length
+  lines.shift()
+  for(var i=0; i<N; i++){
+    var lenL = lines[i].length
+    var temp = ''
+    if(lenS==lenL){
+      if( S==lines[i]){
+        temp = 'banned'
+      }else if( S.slice(0,(lenS+1)/2)==lines[i].slice(0,(lenS+1)/2) ){
+        for(var j=0; j<(lenS/2); j++){
+          temp = temp + 'x'
+        }
+        temp = temp + lines[i].slice((lenS+1)/2,lenL)
+      }else if( S.slice((lenS)/2,lenS)==lines[i].slice((lenS)/2,lenL) ){
+        temp = lines[i].slice(0,(lenS)/2)
+        for(j=(lenS)/2; j<lenS; j++){
+          temp = temp + 'x'
+        }
+      }else{
+        temp = lines[i]
+      }
+      lines[i] = temp
+    }
+    console.log('STEP: 11 ' + lines[i])
+  }
+  
+}
+setp11()
