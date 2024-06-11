@@ -1,3 +1,4 @@
+const { verifySignatureAndParseRawBody } = require("@slack/bolt/dist/receivers/ExpressReceiver")
 const { FAILSAFE_SCHEMA } = require("js-yaml")
 
 /*
@@ -259,8 +260,16 @@ step4()
 
 /*
  * STEP: 5 【シミュレーション 1】反復横跳び
- * 
+ *  A 君の学校では体力テストがおこなわれており、現在反復横跳びの計測をしています。
+ *  いたずら好きの A 君は、友達が光の速さで反復横飛びをしている途中、具体的には友達が線を跨ぐのが 
+ *  4×N 回目になる直前に左の線を元の位置から外側に X cm 遠ざけました。
+ *  最終的に友達の反復横跳びの計測結果は K 回となりました。
+ *  友達は正規の反復横跳びで計測結果が K 回となるときよりも何 cm 多く移動したでしょうか
+ *  なお、今回の反復横跳びでは中央の線を跨いだ状態から始めて、右の線→中央の線→左の線→中央の線→... といった順番で跨いで行くものとします。
  */
+function step5(){
+}
+step5()
 
 /*
  * STEP: 6 【シミュレーション 2】perfect shuffle
@@ -582,8 +591,60 @@ step18()
 
 /*
  * STEP: 19 【配列 1】平面で計算
- * 
+ *  N × N の二次元配列 A が与えられるので、N 要素からなる縦列・横列・斜め列の和のうち、最大のものを求めてください。
  */
+function step19(){
+  //var lines = [3,'1 2 3', '4 5 6', '7 8 9']
+  var lines = [4,'1 2 3 4','2 3 4 1','3 4 1 2','4 1 2 3']
+  var N = Number.parseInt(lines[0])
+  lines.shift()
+  var ary = [], arys = []
+  for(var l in lines){
+    ary[l] = lines[l]
+    arys.push(ary[l].split(' '))
+  }
+  var numsH = []
+  var numsW = []
+  var numsDl = []
+  var numsDr = []
+  var c = 0
+  while(c<N){
+    var numH = 0
+    var numDl = 0
+    for(var i=0; i<arys.length; i++){
+      var numW = 0
+      for(var j=0; j<arys[i].length; j++){
+        if(j==c){
+          numH += Number.parseInt(arys[i][j])
+        }
+        if(i==j){
+          numDl += Number.parseInt(arys[i][j])
+        }
+        numW += Number.parseInt(arys[i][j])
+      }
+      if(numsW.length!=N){
+        numsW.push(numW)
+      }      
+    }
+    numsH.push(numH)
+    if(numsDl.length<1){
+      numsDl.push(numDl)
+    }
+    var numDr = 0
+    var z = arys.length-1
+    for(i=c; i<arys.length; i++){
+      numDr += Number.parseInt(arys[i][z])
+      z--
+    }
+    if(numsDr.length<1){
+      numsDr.push(numDr)
+    }
+    c++
+  }
+
+  console.log('STEP: 19 ' + Math.max(...numsW,...numsH,...numsDl,...numsDr))
+}
+step19()
 
 /*
  * STEP: 20 【配列 2】立体で計算
