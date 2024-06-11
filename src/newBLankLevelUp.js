@@ -466,8 +466,30 @@ step16()
 
 /*
  * STEP: 17 【文字列 2】super long int
- * 
+ *  整数型が用意されている言語では、int や long int といった型を用いて数値を保持することが多いです。
+ *  しかし、これらの型は扱える値の上限が 10^10 程度にされていることが多いです。
+ *  そこで A 君は新たに 32 桁の数字を受け取ることができる型 super long int を定義することにしました。
+ *  また super long int 型の値 X から int 型のハッシュ値を求める関数 hash(X) を次の通り定義しました。
+ *  hash(X) = X を 8 桁ずつに区切って得られる 4 つの 8 桁の数字の和
+ *  super long int 型の値 X が与えられるので、hash(X) の値を求めてください。
  */
+function step17(){
+  var lines = ['11111111111111111111111111111111']
+  //var lines = ['36585594857520029384829183475638']
+  var numbers = []
+  if(lines[0].length==32 && lines[0].slice(0,1)!=0){
+    for(var i=0; i<32; i++){
+      numbers.push(lines[0].slice(i,i+8))
+      i+=7
+    }
+    var result = 0
+    numbers.forEach(number=>{
+      result = result + Number.parseInt(number)
+    })
+    console.log('STEP: 17 ' + result)
+  }
+}
+step17()
 
 /*
  * STEP: 18 【文字列 3】p4!2@
