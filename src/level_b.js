@@ -9,9 +9,79 @@ B109()
 
 /*
  * B129 : n毛作
+ *   あなたは農場で働いています。あなたが働いている農場では、一年のうちに n 回、同じ畑で作物を栽培します。
+ *   あなたが担当している畑は、h 行 w 列の正方形状の区画に分割されています。以下では、i 行 j 列目の区画を区画 (i, j) と表記します。
+ *   また、あなたが担当している畑では、一年を通して m 種類の作物を栽培します。ここでは、それぞれの作物に 1 から順番に番号を振り、
+ *   作物 1、作物 2、…、作物 m と呼ぶことにします。
+ *   一年のはじめには、畑では何も栽培されていません。この状態から、次の手順に則り作物を栽培していきます。
+ *   ・第 i 期には、a_i 行から b_i 行まで、c_i 列から d_i 列までの長方形の区画の作物をすべて収穫する。そして、同じ区画に作物 e_i を植える
+ *   ただし、第 i 期に植えた作物は、第 i + 1 期には収穫可能な状態まで育っているとします(1 ≦ i ≦ n - 1)。
+ *   また、それぞれの作物は丈夫なため、一度収穫可能な状態まで育った後に枯れることは無いものとします。
+ *   あなたは、事前に n 期分の栽培計画のデータを手渡されました。第 n 期までの手順が終わったあとに、m 種類の作物がそれぞれいくつ収穫できるかを計算してください。
+ *   また、第 n 期の作業が終わった後に、それぞれの区画に植えられている作物の情報を表示してください。
  */
 function B129(){
+    //var lines = ['3 2','2 4','1 2 3 4 1','1 1 1 4 2','1 2 2 3 1']
+    var lines = ['7 4','1 10','1 1 1 9 4','1 1 2 3 3','1 1 7 9 1','1 1 4 7 3','1 1 2 3 2','1 1 1 3 1','1 1 3 3 3']
+    var ay = lines[0].split(' ')
+    var n = Number.parseInt(ay[0])
+    var m = Number.parseInt(ay[1])
+    lines.shift()
+    ay = lines[0].split(' ')
+    var h = Number.parseInt(ay[0])
+    var w = Number.parseInt(ay[1])
+    lines.shift()
+
+    var farm = []
+    for(var i=0; i<h; i++){
+        farm[i] = []
+        var ary = lines[i].split(' ')
+        for(var j=0; j<w; j++){
+            farm[i][j] = '.'
+        }
+    }
+    var plant = []
+    for(i=0; i<m; i++){
+        plant[i] = []
+        plant[i][0] = i+1
+        plant[i][1] = 0
+    }
+    var works = lines
+    for(i=0; i<works.length; i++){
+        var work = works[i].split(' ')
+        var h_s = Number.parseInt(work[0])-1
+        var h_e = Number.parseInt(work[1])-1
+        var w_s = Number.parseInt(work[2])-1
+        var w_e = Number.parseInt(work[3])-1
+        var p_no = Number.parseInt(work[4])
+
+        for(var z=h_s; z<=h_e; z++){
+            for(var y=w_s; y<=w_e; y++){
+                if(farm[z][y]==''){
+                    farm[z][y] = p_no
+                }else{
+                    for(var p in plant){
+                        if(plant[p][0]==farm[z][y]){
+                            plant[p][1]++
+                            break
+                        }
+                    }
+                    farm[z][y] = p_no
+                }
+            }
+        }         
+    }
+    plant.forEach(p=>{
+        console.log('B129 : ' + p[1])
+    })
+
+    farm.forEach(f=>{
+        var str = f.join()
+        str = str.replaceAll(',','')
+        console.log('B129 : ' + str)
+    })
 }
+//B129()
 
 /*
  * B145 : ビンゴゲームの判定
@@ -79,4 +149,4 @@ function B145(){
     }
     console.log('B145 :' + count)
 }
-B145()
+//B145()
