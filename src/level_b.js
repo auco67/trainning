@@ -1,4 +1,63 @@
 /*
+ * B096 爆弾の大爆発
+ *  あなたは今、とある戦略ゲームをプレイしています。
+ *  ゲームの中で、敵を攻撃するために、フィールドに爆弾を仕掛けました。
+ *  敵がフィールド内に入ったところで一気に爆弾を点火し、敵に攻撃をする寸法です。
+ *  フィールドは縦 H 行、横 W 行のマス目としてあらわされ、これらのマス目のうちのいくつかに爆弾が仕掛けてあります。
+ *  i 行目、j 列目の爆弾が爆発すると、i 行目全体と j 列目全体に爆風が広がります。
+ *  あなたはすでにフィールド上に爆弾を仕掛け終わりました。
+ *  フィールド上の爆弾を一気に点火した場合、いくつのマスに爆風が広がるかを計算してください
+ *  例えば、入力例 1 では以下のマスに爆風が広がるため、求めるべきマス目数は 12 になります。
+ */
+function B096(){
+    //var lines = ['4 4','#.#.','....','..#.','....']
+    var lines = ['5 8','.#.#....','........','........','........','.....#..']
+    var ay = lines[0].split(' ')
+    var H = Number.parseInt(ay[0])
+    var W = Number.parseInt(ay[1])
+    lines.shift()
+    var position = []
+    var fields = []
+    for(var i=0; i<lines.length; i++){
+        fields[i] = []
+        for(var j=0; j<lines[i].length; j++){
+            var char = lines[i].slice(j,j+1)
+            fields[i][j] =char
+            if(fields[i][j]=='#'){
+                position.push([i,j])
+            }
+        }
+    }
+    position.forEach(p=>{
+        for(i=0; i<fields.length; i++){
+            if(i==p[0]){
+                var c = i
+                while(c<fields[i].length){
+                    fields[i][c] = '#'
+                    c++
+                }
+                var c = i
+                while(c>-1){
+                    fields[i][c] = '#'
+                    c--
+                }
+            }
+            fields[i][p[1]]= '#'
+        }
+    })
+    var counter = 0
+    for(i=0; i<fields.length; i++){
+        for(j=0; j<fields[i].length; j++){
+            if(fields[i][j]=='#'){
+                counter++
+            }
+        }
+    }
+    console.log(counter)
+}
+B096()
+
+/*
  * B109 【50万人記念問題】映画館の席の予約
  *   あなたは、映画館の席の予約をしようとしています。
  *   座席は、縦の位置を表す p と横の位置を表す q の (p, q) で指定でき、最も左上の席が (0, 0) となっています。
@@ -68,7 +127,7 @@ function B109(){
         }
     })
 }
-B109()
+//B109()
 
 /*
  * B129 : n毛作
