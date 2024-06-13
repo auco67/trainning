@@ -1,9 +1,72 @@
 /*
  * B109 【50万人記念問題】映画館の席の予約
- *
+ *   あなたは、映画館の席の予約をしようとしています。
+ *   座席は、縦の位置を表す p と横の位置を表す q の (p, q) で指定でき、最も左上の席が (0, 0) となっています。
+ *   映画館には、最も見やすい席が 1 席存在し、最も映画を見やすい席とのマンハッタン距離が小さいほど、映画を見やすくなっています。
+ *   マンハッタン距離とは、ある 2 点 (p, q)、(s, t) に対して、|p - s| + |q - t| で与えられる距離を表します。
+ *   あなたは、できるだけ映画を見やすい席を予約しようと思っています。
+ *   最も見やすい席とすでに予約されている席の情報が与えられるので、まだ予約されていない席の中で、最も映画を見やすい席を求めてください。   
  */
 function B109(){
+    //var lines = ['9 4 5 2 3','1 0','1 2','1 3','1 4','2 2','2 3','2 4','3 3','3 4']
+    var lines = ['4 3 2 2 0','0 0','1 0','1 1','2 1']
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var H = Number.parseInt(ay[1])
+    var W = Number.parseInt(ay[2])
+    var P = Number.parseInt(ay[3])
+    var Q = Number.parseInt(ay[4])
+    lines.shift()
 
+    var seats = []
+    for(var i=0; i<H; i++){
+        seats[i] = []
+        for(var j=0; j<W; j++){
+            seats[i][j] = '.'
+        }
+    }
+    
+    var reserves = lines
+    for(var r in reserves){
+        var r_ay = reserves[r].split(' ')
+        var h_i = Number.parseInt(r_ay[0])
+        var w_j = Number.parseInt(r_ay[1])
+        for(i=0; i<H; i++){
+            for(j=0; j<W; j++){
+                if(i==h_i && j==w_j){
+                    seats[i][j] = 'X'
+                }
+            }
+        }
+    }
+    
+    var manhattans = []
+    for(i=0; i<H; i++){
+        var manhattan = []
+        for(j=0; j<W; j++){
+            if(seats[i][j]!='X'){
+                manhattan.push([Math.abs(P-i)+Math.abs(Q-j),i,j]) 
+            }
+        }
+        if(manhattan.length!=0){
+            manhattan.sort(function(a,b){return a[0]-b[0]})
+            manhattans.push(manhattan)  
+        }
+    }
+    var result = []
+    manhattans.forEach(m =>{
+        result.push(m[0])
+    })
+    result.sort(function(a,b){return a[0]-b[0]})
+    var max = result[0][0]
+    result.sort(function(a,b){return b[0]-a[0]})
+    var min = result[0][0]
+
+    result.forEach(r=>{
+        if(r[0]==max){
+            console.log('B109 : ' + r[1] +' ' + r[2])
+        }
+    })
 }
 B109()
 

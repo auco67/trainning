@@ -44,7 +44,7 @@ function step1() {
     console.log('STEP: 1 ' + str)
   }
 }
-step1()
+//step1()
 
 /*
  * STEP: 2 マップの扱い 2】マップの書き換え・縦横
@@ -101,7 +101,7 @@ function step2() {
     console.log('STEP: 2 ' + str)
   })
 }
-step2()
+//step2()
 function moveStr(char){
   if(char=='.'){
     return '#'
@@ -175,7 +175,7 @@ function step3(){
     console.log('STEP: 3 ' +str)
   })
 }
-step3()
+//step3()
 
 /* 
  * STEP: 4 【マップの扱い 4】マップのナンバリング
@@ -256,7 +256,7 @@ function step4(){
     console.log('STEP: 4 ' +str)
   }
 }
-step4()
+//step4()
 
 /*
  * STEP: 5 【シミュレーション 1】反復横跳び
@@ -269,7 +269,7 @@ step4()
  */
 function step5(){
 }
-step5()
+//step5()
 
 /*
  * STEP: 6 【シミュレーション 2】perfect shuffle
@@ -329,7 +329,7 @@ function step9(){
   }
   console.log('STEP: 9 ' + result)
 }
-step9()
+//step9()
 
 /*
  * STEP: 10 【条件判定 2】視力検査
@@ -375,7 +375,7 @@ function step10(){
   console.log('STEP: 10 ' + level_name[tester_level])
 
 }
-step10()
+//step10()
 
 /*
  * STEP: 11 【条件判定 3】過剰コンプライアンス
@@ -419,7 +419,7 @@ function setp11(){
   }
   
 }
-setp11()
+//setp11()
 
 /*
  * STEP: 12 【全探索 1】高い寿司を食いたい！
@@ -473,7 +473,7 @@ function step16(){
     c++
   }
 }
-step16()
+//step16()
 
 /*
  * STEP: 17 【文字列 2】super long int
@@ -500,7 +500,7 @@ function step17(){
     console.log('STEP: 17 ' + result)
   }
 }
-step17()
+//step17()
 
 /*
  * STEP: 18 【文字列 3】p4!2@
@@ -587,7 +587,7 @@ function step18(){
     console.log('STEP: 18 nothing')
   }
 }
-step18()
+//step18()
 
 /*
  * STEP: 19 【配列 1】平面で計算
@@ -644,7 +644,7 @@ function step19(){
 
   console.log('STEP: 19 ' + Math.max(...numsW,...numsH,...numsDl,...numsDr))
 }
-step19()
+//step19()
 
 /*
  * STEP: 20 【配列 2】立体で計算
@@ -664,9 +664,93 @@ step19()
  *  ただし距離が同じ地点が複数存在する場合、番号が小さい地点ほど近い地点であるものとしてください。
  */
 function step21(){
+  //var lines = ['100 100',3,'103 103','101 105','102 104']
+  //var lines = ['100 100',3,'100 100','123 123','120 120']
+  //var lines = ['16 426',28,'915 717','193 385','537 779','918 874','524 817','795 636','519 101','417 847','422 494','166 112'
+  //              ,'526 283','385 927','20 592','304 532','476 754','154 266','912 730','686 979','149 467','627 136','821 307'
+  //              ,'76 619','273 848','29 539','17 851','785 458','285 391','869 931']
+  var lines = ['529 656',64,'545 375','806 119','99 234','525 743','761 502','334 489','211 19','387 712','524 375','366 621','307 804','681 673','885 587','47 445','775 798','908 806','250 762','951 98','582 758','393 254','845 949','340 580','313 114','132 241','333 29','170 958','591 664','959 311','556 265','760 775','918 859','295 586','793 227','416 115','474 641','61 435','827 738','640 154','810 718','417 580','590 415','189 904','159 65','950 122','485 375','911 279','939 878','40 188','466 814','724 42','570 899','275 166','638 770','933 457','229 930','601 953','451 140','279 941','268 567','610 658','140 985','430 189','949 352','165 233']
+  var ay = lines[0].split(' ')
+  var P_x = Number.parseInt(ay[0])
+  var P_y = Number.parseInt(ay[1])
+  lines.shift()
+  var N = Number.parseInt(lines[0])
+  lines.shift()
 
+  var eugrit = []
+  var manhattan = []
+  for(var i=0; i<lines.length; i++){
+    var ar2 = lines[i].split(' ')
+    var x_i = Number.parseInt(ar2[0])
+    var y_i = Number.parseInt(ar2[1])
+    eugrit.push([i,Math.sqrt(((P_x-x_i)**2) + ((P_y-y_i)**2))])
+    manhattan.push([i,Math.abs(P_x-x_i)+Math.abs(P_y-y_i)])
+  }
+  eugrit.sort(function(a,b){return b[1]-a[1]})
+  var e_max = eugrit[0][1]
+  eugrit.sort(function(a,b){return a[1]-b[1]})
+  var e_min = eugrit[0][1]
+  
+  if(e_max==e_min){
+    var e_c = 1
+    while(e_c<4){
+      console.log(e_c)
+      e_c++
+    }
+  }else{
+    var e_c = 0
+    for(var e=0; e<eugrit.length; e++){
+      for(i=0; i<lines.length; i++){
+        ar2 = lines[i].split(' ')
+        x_i = Number.parseInt(ar2[0])
+        y_i = Number.parseInt(ar2[1])
+        var e_temp = Math.sqrt(((P_x-x_i)**2) + ((P_y-y_i)**2))
+  
+        if(eugrit[e][1]==e_temp){
+          console.log(i+1)
+          e_c++
+          break
+        }
+      }
+      if(e<eugrit.length-1){
+        if(eugrit[e][1]==eugrit[e+1][1]) e+=1
+      }
+      if(e_c==3) break
+    }
+  }
+  manhattan.sort(function(a,b){return b[1]-a[1]})
+  var m_max = manhattan[0][1]
+  manhattan.sort(function(a,b){return a[1]-b[1]})
+  var m_min = manhattan[0][1]
+  if(m_max==m_min){
+    var m_c = 1
+    while(m_c<4){
+      console.log(m_c)
+      m_c++
+    }
+  }else{
+    var m_c = 0
+    for(var m=0; m<manhattan.length; m++){
+      for(i=0; i<lines.length; i++){
+        ar2 = lines[i].split(' ')
+        x_i = Number.parseInt(ar2[0])
+        y_i = Number.parseInt(ar2[1])
+        var m_temp = Math.abs(P_x-x_i)+Math.abs(P_y-y_i)
+  
+        if(manhattan[m][1]==m_temp){
+          console.log(i+1)
+          m_c++
+          break
+        }
+      }
+      if(m<manhattan.length-1){
+        if(manhattan[m][1]==manhattan[m+1][1]) m+=1
+      }
+      if(m_c==3) break
+    }
+  }  
 }
-step21()
+//step21()
 
 /*
  * STEP: 22 【計算 2】疑似乱数
@@ -680,4 +764,4 @@ step21()
 function step22(){
 
 }
-step22()
+//step22()
