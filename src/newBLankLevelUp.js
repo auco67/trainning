@@ -423,8 +423,40 @@ function setp11(){
 
 /*
  * STEP: 12 【全探索 1】高い寿司を食いたい！
- * 
+ *  A 君は家族と一緒に回転寿司に来ています。
+ *  回転寿司の円形のレーンには、価格が P_1, ..., P_N の N 枚の寿司が順番に流れています。
+ *  （価格が P_1 の寿司と P_N の寿司は隣接しています。）
+ *  A 君は、家族が目を離した隙にレーンから連続した K 枚の寿司をこっそり取って食べてしまおうと考えました。
+ *  A 君は普段食べれない高いお寿司を多く食べたいので、取る K 枚の寿司の合計金額ができるだけ高くなるように寿司を取りたいです。
+ *  A 君が食べることができる寿司の合計金額の最大値を求めてください。
  */
+function step12(){
+  var lines = ['5 3',100,200,300,400,500]
+  //var lines = ['7 2',1000,200,500,600,300,300,2000]
+  var ay = lines[0].split(' ')
+  var N = Number.parseInt(ay[0])
+  var K = Number.parseInt(ay[1])
+  lines.shift()
+  
+  var prices = []
+  var c = 0
+  while(c<2){
+    for(var l_i in lines){
+      prices.push(lines[l_i])
+    }
+    c++
+  }
+  var ans = 0
+  for(var i=0; i<N; i++){
+    var total = 0
+    for(var j=0; j<K; j++){
+      total += Number.parseInt(prices[(i+j)%N])
+    }
+    ans = Math.max(ans, total)
+  }
+  console.log('STEP: 12 ' + ans)
+}
+//step12()
 
 /*
  * STEP: 13 【全探索 2】コップの水
