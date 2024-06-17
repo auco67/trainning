@@ -460,8 +460,50 @@ function step12(){
 
 /*
  * STEP: 13 【全探索 2】コップの水
- * 
+ *  A 君は度胸試しとして、コップに水をギリギリまで入れるゲームをすることにしました。ルールは次の通りです。
+ * ・w_1 ml, ..., w_N ml の水の入った N 個の小さなコップを用意する。
+ * ・容量が X ml の大きなコップに、小さなコップの中から 1 つ選び、そのコップの水を全て入れる。
+ * ・大きなコップに溢れないようにギリギリまで水を入れることを目標にする。
+ * このゲームにおいて A 君が最適なプレイをしたとき、大きなコップに水を何 ml 入れることができるかを求めてください。
  */
+function step13(){
+  //var lines = ['3 100',30,40,50]
+  var lines = ['5 100',99,98,97,96,5]
+  //var lines = ['12 487',4,254,270,201,473,227,333,387,459,146,169,49]
+  var ay = lines[0].split(' ')
+  var N = Number.parseInt(ay[0])
+  var X = Number.parseInt(ay[1])
+  lines.shift()
+
+  var ans = 0
+  var total = 0
+  for(var i=0; i<N; i++){    
+    total = Number.parseInt(lines[i])
+    while(total+Number.parseInt(lines[i+1])<X){
+      total += Number.parseInt(lines[i+1])
+    }
+    ans = Math.max(ans, total)
+  }
+  console.log('STEP: 13 ' + ans)
+  /*
+  var ans = 0
+  for(var i=0; i<Math.pow(2, N); i++){
+    var sum = 0
+    var tmp = i
+    for(var j=0; j<N; j++){
+      if(tmp%2==1){
+        sum += lines[j]
+      }
+      tmp /= 2
+    }
+    if(sum <= X){
+      ans = Math.max(ans, sum)
+    }
+  }
+  console.log(ans)
+  */
+}
+step13()
 
 /*
  * STEP: 14 【全探索 3】+1, -1, '1'+, +'1'
