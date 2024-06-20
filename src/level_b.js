@@ -55,7 +55,7 @@ function B096(){
     }
     console.log(counter)
 }
-B096()
+//B096()
 
 /*
  * B109 【50万人記念問題】映画館の席の予約
@@ -272,3 +272,91 @@ function B145(){
     console.log('B145 :' + count)
 }
 //B145()
+
+/* 
+ * B079 : 相性チェック
+ *  あなたは恋愛相談会社 プログラマーです。今回、あなたは二人の相性占いをするプログラムを作ることにしました。
+ *  あなたが作成するプログラムは、まず、以下の流れで「二人の相性」を求めます。
+ *   1. 相性をチェックする二人の名前を並べた英小文字からなる文字列を入力します。
+ *   2. "a" を 1、"b" を 2、...、"z" を 26 として、文字列を数列に変換します。この数列を A とします。
+ *   3. 数列 A の隣り合う 2 つの数を足して前から順番に並べた新しい数列 A' を作り、これを新たに A とします。
+ *      このとき、A の要素の大きさが 101 を超えていた場合、その要素から 101 を引きます。
+ *   4. 数列 A の要素数が 1 になるまで 3. の手順を繰り返します。A の要素数が 1 となったとき、残った要素の値を「二人の相性」とします。
+ *  名前の並べ方は 2 通りあります。そこで、あなたは相性占いの結果として、 2 通りの方法で計算した「二人の相性」のうち大きい方を出力するように
+ *  プログラムを組むことにしました。
+ *  相性占いをする二人の人物の名前が与えられたとき、相性占いの結果を出力するプログラムを作成してください。
+ */
+function B079(){
+    //var lines = ['pa iza']
+    var lines = ['alice bob']
+    var ay = lines[0].split(' ')
+    var strP1 = ay[0]+ay[1]
+    var strP2 = ay[1]+ay[0]
+    var ayP1 = getAlphNum(strP1)
+    var ayP2 = getAlphNum(strP2)
+    var compaP1 = getCompatibility(ayP1)
+    var compaP2 = getCompatibility(ayP2)
+    if(compaP1>compaP2){
+        console.log(compaP1[0])
+    }else{
+        console.log(compaP2[0])
+    }
+}
+function getCompatibility(ary){
+    var ay = []
+    
+    for(var i=0; i<ary.length; i++){
+        if(i<ary.length-1){
+            var num = ary[i]+ary[i+1]
+            if(num>=101) num -=101
+            ay.push(num)
+        }            
+    }
+    if(ay.length!=1){
+        ay = getCompatibility(ay)
+    }        
+    return ay
+}
+function getAlphNum(str){
+    const alphavets = [
+        ['a',1],
+        ['b',2],
+        ['c',3],
+        ['d',4],
+        ['e',5],
+        ['f',6],
+        ['g',7],
+        ['h',8],
+        ['i',9],
+        ['j',10],
+        ['k',11],
+        ['l',12],
+        ['m',13],
+        ['n',14],
+        ['o',15],
+        ['p',16],
+        ['q',17],
+        ['r',18],
+        ['s',19],
+        ['t',20],
+        ['u',21],
+        ['v',22],
+        ['w',23],
+        ['x',24],
+        ['y',25],
+        ['z',26]
+    ]
+    var strAry = []
+    
+    for(var i=0; i<str.length; i++){
+        var char = str.slice(i, i+1)
+        for(var index in alphavets){
+            if(alphavets[index][0]==char) {
+                strAry.push(Number.parseInt(alphavets[index][1]))
+                break
+            }
+        }
+    }
+    return strAry
+}
+//B079()
