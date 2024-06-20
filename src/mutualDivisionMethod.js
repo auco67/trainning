@@ -278,3 +278,95 @@ function step8(){
     }    
 }
 //step8()
+
+/*
+ * STEP: 9 mod の演算
+ *  ある自然数 N について、整数を N で割った余りに注目した数式を合同式と言います。
+ *  整数 A を N で割った余りと、整数 B を N で割った余りが等しい場合、「N を法として a と b は合同である」といい a ≡ b(mod N)と表されます。
+ *  mod N での足し算・割り算・掛け算・累乗では次のような関係が成り立ちます。
+ *   a ≡ b(mod N) , c ≡ d(mod N) のとき
+ *   a + c ≡ b + d (mod N)
+ *   a - c ≡ b - d (mod N)
+ *   a × c ≡ b × d (mod N)
+ *   a ^ n ≡ b ^ n (mod N) (n は自然数)
+ *  演算子 cal と、自然数 N , 整数 A , B が与えられるので、A[cal]B (mod N) を計算してください.
+ */
+function step9(){
+    //var lines = [17,'56 + 927']
+    //var lines = [837,'9282 * 10384']
+    var lines = [9246,'28474 ^ 83745']
+    //var lines = [92747,'3765 - 87626']
+    var N = Number.parseInt(lines[0])
+    lines.shift()
+    var ay = lines[0].split(' ')
+    var A = Number.parseInt(ay[0])
+    var B = Number.parseInt(ay[2])
+    var cal = ay[1]
+    var ans = 0
+    switch(cal){
+        case '+':
+            ans = ((A%N)+(B%N))%N
+            break
+        case '-':
+            ans = (((A%N)-(B%N))+N)%N
+            break
+        case '*':
+            ans = ((A%N)*(B%N))%N
+            break
+        case '^':
+            ans = 1
+            for(var j=0; j<B; j++){
+                ans *= A
+                ans %= N
+            }
+    }
+    console.log(ans)
+}
+//step9()
+
+/*
+ * STEP: 10 mod の逆元
+ *  ある自然数 M について、整数を M で割った余りに注目した数式を合同式と言います。
+ *  整数 A を M で割った余りと、整数 B を M で割った余りが等しい場合、「M を法として A と B は合同である」といい A ≡ B(mod M)と表されます。
+ *  M と互いに素である整数 A に対して、 A × N = 1(mod M) となる 1 以上 M 未満の整数 N が必ず存在し、
+ *  この N を 「mod M での A の mod 逆元」といい、 A^{-1} (mod M) と書きます。
+ *  mod M での A の mod 逆元を求めるには、 x , y についての 1 次方程式 Ax + My = 1 の 解 x が分かれば良いです。
+ *  gcd(A,M) = 1 であるので、この方程式の解 x は拡張ユークリッドの互除法を用いることで求めることができます。
+ *  互いに素である整数 A , M が与えられるので、mod M での A の mod 逆元を求めてください。
+ *  ただし、答えは 1 以上 M 未満の整数で出力してください。
+ */
+function step10(){
+    var lines = ['123 56']
+    var ay = lines[0].split(' ')
+    var M = Number.parseInt(ay[0])
+    var A = Number.parseInt(ay[1])
+    var x = 1
+    var y = 0
+    var ans = 0
+    extgcd(A, M, x, y)
+    ans = (x + M)%M
+    console.log(ans)
+}
+function extgcd(a, b, x, y){
+    var c = a    
+    if(b != 0){
+        c = extgcd(b, a%b, y, x)
+        y -=(a/b)*x
+    }else{
+        x = 1
+        y = 0
+    }
+    return c
+}
+//step10()
+
+/* 
+ * STEP: 11 高速な累乗の計算
+ *  高速に累乗を計算する方法として、繰り返し二乗法というものがあります。
+ *  このアルゴリズムは、a の b 乗 (a ^ b) を、 a ^ (2 ^ i) 乗を用いて表すことで計算量を落とすアルゴリズムです。
+ *    まず b の ２ 進数表現を考えます。b の最下位の桁が １ かどうかを確認します。
+ *    最下位の桁が １ の場合、 a を ans にかけます。
+ *    この処理が終わったら、a を a の ２ 乗に置き換え、b を右に １ ビットシフト(割る 2)します。
+ *  これを b が 0 以下になるまで繰り返すことで、i 回目のときに、a ^ (2 ^ (i - 1)) のかけ算を行うことができます。
+ *  整数 A , B , M が与えられるので、 A^B(mod M) を求めましょう。
+ */
