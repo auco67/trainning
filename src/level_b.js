@@ -360,3 +360,88 @@ function getAlphNum(str){
     return strAry
 }
 //B079()
+
+/* 
+ * B110 : 解像度の向上
+ * あなたは解像度が H * W の 2 枚の画像を用いることで、擬似的により細かい解像度の画像を得ることを考えました。
+ * ただし、解像度が H * W の画像は縦に H 個、横に W 個で合計 H * W 個のピクセルを持っており、それぞれのピクセルに「ピクセル値」と呼ばれる、
+ * その画素の明るさを表す値が定義されています。2 枚の画像を用いて新たな画像を得る際には、以下のようにして画像を構成します。
+ * ・2 枚の画像を、ピクセル値をそのままに、それぞれ 2H * 2W 個のピクセルに分割する
+ * ・2 枚目の画像を、1 枚目の画像に対して下方向に 1 ピクセル、右方向に 1 ピクセルずらして重ねる
+ * ・その後、2 枚両方の画像が重なる部分を抽出する。
+ * ・抽出された各ピクセル値は、2 枚の画像の対応する部分のピクセル値の平均をとる(小数点以下切り捨て)ことによって計算される
+ * 画像の構成の仕方は図のようになります。
+ * この手続きによって、縦に 2 * H - 1、横に 2 * W - 1 のより解像度の高い画像を得ることができます。
+ * 2 枚の画像の情報が与えられるので、上記の手続きを経て新たに得られる画像を出力してください。
+ */
+function B110(){
+    //var lines = ['2 3','0 255 255','0 255 255','0 0 0','255 255 255']
+    //var lines = ['1 3','0 200 100','100 100 100']
+    var lines = ['7 7','0 0 0 167 0 0 0','0 0 167 167 167 0 0','0 167 167 167 167 167 0',
+                '167 167 167 167 167 167 167','0 167 167 167 167 167 0','0 0 167 167 167 0 0','0 0 0 167 0 0 0',
+                '0 0 0 167 0 0 0','0 0 167 167 167 0 0','0 167 167 167 167 167 0','167 167 167 167 167 167 167',
+                '0 167 167 167 167 167 0','0 0 167 167 167 0 0','0 0 0 167 0 0 0']
+    var ay = lines[0].split(' ')
+    var H = Number.parseInt(ay[0])
+    var W = Number.parseInt(ay[1])
+    lines.shift()
+    var images = []
+    for(var i=0; i<(H*2); i++){
+        images[i] = []
+        for(var j=0; j<(W*2); j++){
+            images[i][j] = 0
+        }
+    }
+
+    var image1 = []
+    var image2 = []    
+    for(i=0; i<lines.length; i++){
+        if(i<H){
+            image1.push(lines[i].split(' '))
+        }else{
+            image2.push(lines[i].split(' '))
+        }
+    }
+    var k = 0 , l = 0
+    for( i=0; i<image1.length; i++){
+        for( j=0; j<image1[i].length; j++){
+            images[k][l] = Number.parseInt(image1[i][j])
+            images[k][l+1] = Number.parseInt(image1[i][j])
+            images[k+1][l] = Number.parseInt(image1[i][j])
+            images[k+1][l+1] = Number.parseInt(image1[i][j])
+            l+=2
+        }
+        k+=2
+        l=0        
+    }
+    
+    k = 1 , l = 1
+    for( i=0; i<image2.length; i++){
+        
+        for( j=0; j<image2[i].length; j++){
+            
+            images[k][l] = Math.floor((images[k][l] + Number.parseInt(image2[i][j]))/2)
+            if(l!=images[k].length-1){
+                images[k][l+1] = Math.floor((images[k][l+1] + Number.parseInt(image2[i][j]))/2)
+            }
+            if(k!=images.length-1){
+                images[k+1][l] = Math.floor((images[k+1][l] + Number.parseInt(image2[i][j]))/2)
+            }
+            if(k!=images.length-1 && l!=images[k].length-1){
+                images[k+1][l+1] = Math.floor((images[k+1][l+1] + Number.parseInt(image2[i][j]))/2)
+            }
+            l+=2   
+        }
+        k+=2        
+        l=1
+    }
+
+    for( i=1; i<images.length; i++){
+        var str = ''
+        for( j=1; j<images[i].length; j++){
+            str += images[i][j] + ' '
+        }
+        console.log(str)
+    }
+}
+B110()
