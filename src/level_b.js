@@ -444,4 +444,68 @@ function B110(){
         console.log(str)
     }
 }
-B110()
+//B110()
+
+/*
+ * B053 : 表の自動生成
+ * いまどきの表計算ソフトにはオートフィルという機能があります。
+ * この機能は選択している表の部分の縦と横の数列の差から等差数列を作り、その数列で残りを入力してくれます。
+ * すなわち、 2 行 2 列目以降の i 行 j 列目の要素を a_{i, j} で表した場合
+ * ・a_{i, j} = a_{i, j - 1} + (a_{i, 2} - a_{i, 1}) ※ 任意の行が等差数列になっている事を示します
+ * ・a_{i, j} = a_{i - 1, j} + (a_{2, j} - a_{1, j}) ※ 任意の列が等差数列になっている事を示しますを同時に満たすように表に入力します。
+ * あなたは大量のデータを打ち込みたくないので、このオートフィル機能を使おうとしています。使った際の結果を出力するプログラムを作成してください。
+ */
+function B053(){
+    var lines = ['5 5','1 2','3 4']
+    //var lines = ['5 7','1 5','-2 1']
+    var ay = lines[0].split(' ')
+    var H = Number.parseInt(ay[0])
+    var W = Number.parseInt(ay[1])
+    lines.shift()
+    var spread = []
+    for(var i=0; i<H; i++){
+        spread[i] = []
+        for(var j=0; j<W; j++){
+            spread[i][j] = 0
+        }
+    }
+    
+    for(i=0; i<lines.length; i++){
+        var ay2 = lines[i].split(' ')
+        for(j=0; j<ay2.length; j++){
+            spread[i][j] = Number.parseInt(ay2[j])
+        }
+    }
+    var diffW = 0
+    var diffH = 0
+    for(i=0; i<spread.length; i++){
+
+        for(j=0; j<spread[i].length; j++){
+
+            if(j==1){
+                diffW = spread[i][j] - spread[i][j-1]
+            }
+            if(i<=1){
+                if(spread[i][j]==0){
+                    spread[i][j] = spread[i][j-1] + diffW
+                }  
+            }else{
+                diffH = spread[i-1][j] - spread[i-2][j]
+                
+                if(spread[i][j]==0){
+                    spread[i][j] = spread[i-1][j] + diffH
+                } 
+            }
+
+        }
+    }
+    for( i=0; i<spread.length; i++){
+        var str = ''
+        for( j=0; j<spread[i].length; j++){
+            str += spread[i][j] + ' '
+        }
+        str = str.slice(0,str.length-1)
+        console.log(str)
+    }
+}
+B053()
