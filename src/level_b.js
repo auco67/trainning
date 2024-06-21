@@ -441,6 +441,7 @@ function B110(){
         for( j=1; j<images[i].length; j++){
             str += images[i][j] + ' '
         }
+        str = str.slice(0,str.length-1)
         console.log(str)
     }
 }
@@ -508,4 +509,5 @@ function B053(){
         console.log(str)
     }
 }
-B053()
+//B053()
+
