@@ -1183,8 +1183,24 @@ class Brave {
 function step13() {
   //var lines = ['3 6', '10 1 1 2 2 3 3', '10 0 0 6 1 7 2', '10 0 0 7 5 8 3', '1 1 2 2', '1 2 3 2', '1 3 2 3',
   //              '2 2 3 1', '2 3 3 1', '1 2 3 2']
-  var lines = ['5 10','8 2 24 40 25 42 26','59 48 13 21 13 56 2','5 59 7 57 5 25 24','99 28 6 32 5 23 2','62 24 19 11 19 7 21',
-                '2 1 3 2','2 1 3 2','5 1 3 1','5 3 1 2','1 1 2 2','4 2 3 1','5 3 3 2','2 3 3 2','4 1 5 3','2 3 3 2']
+  var lines = [
+    '5 10',
+    '8 2 24 40 25 42 26',
+    '59 48 13 21 13 56 2',
+    '5 59 7 57 5 25 24',
+    '99 28 6 32 5 23 2',
+    '62 24 19 11 19 7 21',
+    '2 1 3 2',
+    '2 1 3 2',
+    '5 1 3 1',
+    '5 3 1 2',
+    '1 1 2 2',
+    '4 2 3 1',
+    '5 3 3 2',
+    '2 3 3 2',
+    '4 1 5 3',
+    '2 3 3 2',
+  ]
   var ary = lines[0].split(' ')
   var N = Number.parseInt(ary[0])
   var K = Number.parseInt(ary[1])
@@ -1209,31 +1225,31 @@ function step13() {
     }
   }
 
-  for(var f in fights){
+  for (var f in fights) {
     var p1_sts = false
     var p2_sts = false
     var temp = fights[f].split(' ')
     var pNo1 = Number.parseInt(temp[0]) - 1
     var pNo2 = Number.parseInt(temp[2]) - 1
-    if(players[pNo1].isAlive()==false || players[pNo2].isAlive()==false){
+    if (players[pNo1].isAlive() == false || players[pNo2].isAlive() == false) {
       continue
     }
-    var p1_frame = players[pNo1].frame[Number.parseInt(temp[1])-1]
-    var p1_offensive = players[pNo1].offensive[Number.parseInt(temp[1])-1]
-    var p2_frame = players[pNo2].frame[Number.parseInt(temp[3])-1]
-    var p2_offensive = players[pNo2].offensive[Number.parseInt(temp[3])-1]
-    if(p1_frame==0 && p1_offensive==0) p1_sts = true
-    if(p2_frame==0 && p2_offensive==0) p2_sts = true
+    var p1_frame = players[pNo1].frame[Number.parseInt(temp[1]) - 1]
+    var p1_offensive = players[pNo1].offensive[Number.parseInt(temp[1]) - 1]
+    var p2_frame = players[pNo2].frame[Number.parseInt(temp[3]) - 1]
+    var p2_offensive = players[pNo2].offensive[Number.parseInt(temp[3]) - 1]
+    if (p1_frame == 0 && p1_offensive == 0) p1_sts = true
+    if (p2_frame == 0 && p2_offensive == 0) p2_sts = true
     if (p1_sts && p2_sts) {
       players[pNo1].specialTech()
       players[pNo2].specialTech()
-    }else if(p1_sts){
+    } else if (p1_sts) {
       players[pNo1].specialTech()
       players[pNo1].damage(p2_offensive)
-    }else if(p2_sts){
+    } else if (p2_sts) {
       players[pNo2].damage(p1_offensive)
       players[pNo2].specialTech()
-    }else{
+    } else {
       if (p1_frame < p2_frame) {
         players[pNo2].damage(p1_offensive)
       } else if (p1_frame > p2_frame) {
@@ -1271,12 +1287,12 @@ class Player {
     return this.hp
   }
 
-  isAlive(){
-    if(this.hp > 0){
+  isAlive() {
+    if (this.hp > 0) {
       return true
-    }else{
+    } else {
       return false
-    }    
+    }
   }
 }
 //step13()
@@ -1299,25 +1315,42 @@ class Player {
  *    teleport  燃料を f^2 消費し、 f^4 (km) 移動する。燃料が f^2 未満の場合は fly を行う。
  *  シミュレートする車の台数 N と機能を使う回数 K , N 台の車の車種と機能を使った車の番号と使った機能が与えられるので、
  *  全てのシミュレーションが終わった後の、各車ごとの総移動距離を求めてください。
+ * 解説：　https://paiza.jp/works/mondai/reviews/show/909a3698d63fe06b13faeb1b2222b2c2
  */
-function step14(){
+function step14() {
   //var lines = ['3 6','supercar 1 1','supersupercar 10 10','supersupersupercar 100 5','1 run','2 run','2 fly','3 run','3 fly','3 teleport']
-  var lines = ['5 10','supersupercar 1102 67','supersupercar 63296 25','supersupersupercar 47388 32','supersupercar 30968 68',
-                'supersupercar 53668 78','2 run','3 teleport','1 fly','2 run','4 run','5 fly','5 run','2 fly','4 run','1 fly']
+  var lines = [
+    '5 10',
+    'supersupercar 1102 67',
+    'supersupercar 63296 25',
+    'supersupersupercar 47388 32',
+    'supersupercar 30968 68',
+    'supersupercar 53668 78',
+    '2 run',
+    '3 teleport',
+    '1 fly',
+    '2 run',
+    '4 run',
+    '5 fly',
+    '5 run',
+    '2 fly',
+    '4 run',
+    '1 fly',
+  ]
   var ay = lines[0].split(' ')
   var N = Number.parseInt(ay[0])
   var K = Number.parseInt(ay[1])
   lines.shift()
   var simulation = []
   var cars = []
-  for(var i=0; i<lines.length; i++){
+  for (var i = 0; i < lines.length; i++) {
     ay.splice(0)
     ay = lines[i].split(' ')
-        if(i<N){
+    if (i < N) {
       var model = ay[0]
       var fuel = Number.parseInt(ay[1])
       var effi = Number.parseInt(ay[2])
-      switch(model){
+      switch (model) {
         case 'supercar':
           var car = new supercar(fuel, effi)
           break
@@ -1330,15 +1363,15 @@ function step14(){
           var car = new super3car(fuel, effi)
       }
       cars.push(car)
-    }else{
-      simulation.push([Number.parseInt(ay[0]),ay[1]])
+    } else {
+      simulation.push([Number.parseInt(ay[0]), ay[1]])
     }
   }
   //console.log(cars, simulation)
-  simulation.forEach(simu =>{
-    var carNo = simu[0]-1
+  simulation.forEach((simu) => {
+    var carNo = simu[0] - 1
     var func = simu[1]
-    switch(func){
+    switch (func) {
       case 'run':
         cars[carNo].run()
         break
@@ -1351,51 +1384,51 @@ function step14(){
     //console.log(cars[carNo].mileage)
   })
 
-  cars.forEach(car=>{
+  cars.forEach((car) => {
     console.log(car.mileage)
   })
 }
 
-class supercar{
-  constructor(fuel, effi){
+class supercar {
+  constructor(fuel, effi) {
     this.fuel = fuel
     this.efficiency = effi
     this.mileage = 0
   }
 
-  run(){
-    if(this.fuel != 0){
+  run() {
+    if (this.fuel != 0) {
       this.fuel -= 1
       this.mileage += this.efficiency
     }
   }
 }
-class super2car extends supercar{
-  fly(){
-    if(this.fuel<5){
+class super2car extends supercar {
+  fly() {
+    if (this.fuel < 5) {
       super.run()
-    }else{
+    } else {
       this.fuel -= 5
-      this.mileage += (this.efficiency**2)
-    }    
+      this.mileage += this.efficiency ** 2
+    }
   }
 }
 
-class super3car extends super2car{
-  fly(){
-    if(this.fuel<5){
+class super3car extends super2car {
+  fly() {
+    if (this.fuel < 5) {
       super.run()
-    }else{
+    } else {
       this.fuel -= 5
-      this.mileage += 2*(this.efficiency**2)
-    }    
+      this.mileage += 2 * this.efficiency ** 2
+    }
   }
-  teleport(){
-    if(this.fuel<2){
+  teleport() {
+    if (this.fuel < 2) {
       super.fly()
-    }else{
-      this.fuel -=(this.fuel**2)
-      this.mileage += (this.efficiency**4)
+    } else {
+      this.fuel -= this.fuel ** 2
+      this.mileage += this.efficiency ** 4
     }
   }
 }
