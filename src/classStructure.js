@@ -1299,6 +1299,7 @@ class Player {
  *    teleport  燃料を f^2 消費し、 f^4 (km) 移動する。燃料が f^2 未満の場合は fly を行う。
  *  シミュレートする車の台数 N と機能を使う回数 K , N 台の車の車種と機能を使った車の番号と使った機能が与えられるので、
  *  全てのシミュレーションが終わった後の、各車ごとの総移動距離を求めてください。
+ * 解説：　https://paiza.jp/works/mondai/reviews/show/909a3698d63fe06b13faeb1b2222b2c2
  */
 function step14(){
   //var lines = ['3 6','supercar 1 1','supersupercar 10 10','supersupersupercar 100 5','1 run','2 run','2 fly','3 run','3 fly','3 teleport']
