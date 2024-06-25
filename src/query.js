@@ -258,3 +258,53 @@ function step8(){
     }
 }
 //step8()
+
+/*
+ * STEP: 9 
+ * A 君のクラスには A 君を含めて N + 1 人の生徒がいます。A 君の身長は P cm で、他の N 人の生徒の身長はそれぞれ A_1 ... A_N です。
+ * このクラスには次のようなイベントが合計 K 回起こります。それぞれのイベントは以下のうちのいずれかです。
+ *  ・転校生がクラスに加入する
+ *  ・全員で背の順に並ぶ
+ * 全員で背の順で並ぶイベントが起こるたびに、そのとき A 君は前から何番目に並ぶことになるかを出力してください。
+ */
+function step9(){
+    var lines = ['3 3 176',118,174,133,'join 137','join 177','sorting']
+    //var lines = ['10 10 145',169,164,162,112,191,168,168,199,176,146,'join 196','join 142','sorting','sorting','join 131','join 140',
+    //    'sorting','sorting','join 143','sorting']
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var K = Number.parseInt(ay[1])
+    var P = Number.parseInt(ay[2])
+    lines.shift()
+    var classes = []
+    var ivents = []
+    for(var i=0; i<lines.length; i++){
+        if(i<N){
+            classes.push(lines[i])
+        }else{
+            ay.splice(0)
+            ay = lines[i].split(' ')
+            ivents.push(ay.concat())
+        }        
+    }
+    ivents.forEach(ivent=>{
+        switch(ivent[0]){
+            case 'join':
+                classes.push(Number.parseInt(ivent[1]))
+                break
+            case 'sorting':
+                classes.sort(function(a, b){return a-b})
+                sorting(classes,P)
+        }
+    })
+}
+function sorting(classes,P){
+    for(var i in classes){
+        if(classes[i]>P){
+            var j = Number.parseInt(i)+1
+            console.log(j)
+            break
+        }
+    }
+}
+//step9()
