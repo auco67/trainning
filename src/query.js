@@ -230,3 +230,31 @@ function step7(){
     
 }
 //step7()
+
+/*
+ * STEP: 8 ソートと検索
+ * A 君のクラスには A 君を含めて N + 1 人の生徒がいます。A 君の身長は P cm です。A 君以外の N 人の生徒の身長は A_1, ... ,A_N です。
+ * 今日、クラスに身長 X cm の転校生が 1 人やってきました。転校生が入ってきた後 N + 2 人のクラス全員で背の順で並んだ時、 
+ * A 君は前から何番目に並ぶことになるでしょうか。なお、背の順の先頭の生徒を前から 1 番目の生徒とします。
+ */
+function step8(){
+    //var lines = ['3 188 174',181,177,113]
+    var lines = ['10 139 146',165,159,144,195,188,118,118,141,199,124]
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var X = Number.parseInt(ay[1])
+    var P = Number.parseInt(ay[2])
+    lines.shift()
+    lines.push(X)
+    lines.push(P)
+    lines.sort(function(a,b){return a-b})
+
+    for(var i in lines){
+        if(lines[i]==P){
+            var j = Number.parseInt(i)+1
+            console.log(j)
+            break
+        }
+    }
+}
+//step8()
