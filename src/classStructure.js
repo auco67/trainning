@@ -1319,7 +1319,8 @@ class Player {
  */
 function step14() {
   //var lines = ['3 6','supercar 1 1','supersupercar 10 10','supersupersupercar 100 5','1 run','2 run','2 fly','3 run','3 fly','3 teleport']
-  var lines = [
+  /*
+    var lines = [
     '5 10',
     'supersupercar 1102 67',
     'supersupercar 63296 25',
@@ -1337,6 +1338,7 @@ function step14() {
     '4 run',
     '1 fly',
   ]
+  */
   var ay = lines[0].split(' ')
   var N = Number.parseInt(ay[0])
   var K = Number.parseInt(ay[1])
@@ -1398,7 +1400,7 @@ class supercar {
 
   run() {
     if (this.fuel != 0) {
-      this.fuel -= 1
+      this.fuel--
       this.mileage += this.efficiency
     }
   }
@@ -1424,7 +1426,7 @@ class super3car extends super2car {
     }
   }
   teleport() {
-    if (this.fuel < 2) {
+    if (this.fuel < this.efficiency ** 2) {
       super.fly()
     } else {
       this.fuel -= this.fuel ** 2
@@ -1432,4 +1434,88 @@ class super3car extends super2car {
     }
   }
 }
-step14()
+//step14()
+
+/* 
+ * STEP: 15 ロボットの暴走
+ *  A 株式会社では、物品の管理のために上の図のような座標系の広さが無限大のマスの工場 で 番号 1 〜 N が割り当てられた N 台のロボットを運用していました。
+ *  ところがある日、全てのロボットが暴走してしまいました。各ロボットは性能ごとにレベル分けされており、次の通り移動距離が決まっています。
+ *   Lv1 : 特定の方角に 1 マス進む
+ *   Lv2 : 特定の方角に 2 マス進む
+ *   Lv3 : 特定の方角に 5 マス進む
+ *   Lv4 : 特定の方角に 10 マス進む
+ *  また、工場のマスのうち 10 マスには工具箱が置かれており、移動後にそのマスにロボットがぴったり止まっていた場合、そのロボットのレベルが 1 
+ *  上がってしまいます（最大レベルは 4)。レベル l のロボットの初期位置が工具箱の置かれているマスであったとしても、そのロボットのレベルは l で
+ *  始まることに気をつけてください。
+ *  幸い、初めにロボットがいる範囲や工具箱の置かれているマス、各ロボットの位置とレベル、また、どのロボットがどのような順番でどの方角に移動するかの情報は
+ *  わかっているので、ロボットの移動が K 回終わったときの各ロボットの位置とレベルを推定してください。
+ * 解説：　https://paiza.jp/works/mondai/reviews/show/b0324030b217f57471e8ad93058a1e98
+ */
+function step15(){
+  var lines = ['5 5 3 3','0 0','0 1','0 2','0 3','0 4','1 0','1 1','1 2','1 3','1 4','2 1 1','2 2 1','2 3 1','1 W','1 E','3 S']
+  var ay = lines[0].split(' ')
+  var H = Number.parseInt(ay[0])
+  var W = Number.parseInt(ay[1])
+  var N = Number.parseInt(ay[2])
+  var K = Number.parseInt(ay[3])
+  lines.shift()
+  
+  var tools = []
+  var robots = []
+  var works = []
+  for(var i=0; i<lines.length; i++){
+    if(i<10){
+      ay.splice(0)
+      ay = lines[i].split(' ')
+      tools.push(ay.concat())
+    }else if(i<(10+N)){
+      ay.splice(0)
+      ay = lines[i].split(' ')
+      var robot = new Robot(Number.parseInt(ay[0]), Number.parseInt(ay[1]), Number.parseInt(ay[2]))
+      robots.push(robot)
+    }else if(i<(10+N+K)){
+      ay.splice(0)
+      ay = lines[i].split(' ')
+      works.push(ay.concat())
+    }    
+  }
+  works.forEach(work=>{
+    var rNo = Number.parseInt(work[0])-1
+    var d = work[1]
+    robots[rNo].move(d)
+    for(i=0; i<10; i++){
+      if(robots[rNo].x==tools[i][0] && robots[rNo].y==tools[i][1]){
+        robots[rNo].levelUp()
+      }      
+    }
+  })
+  robots.forEach(robot=>{
+    console.log((robot.x) + ' ' + (robot.y) + ' ' + robot.level)
+  })
+}
+
+class Robot{
+  #step = [0,1,2,5,10]
+  constructor(initX, initY, level){
+    this.x = initX
+    this.y = initY
+    this.level = level
+  }
+  
+  move(direction){
+    if(direction=='N'){
+      this.y -= this.#step[this.level]
+    }else if(direction=='S'){
+      this.y += this.#step[this.level]
+    }else if(direction=='W'){
+      this.x -= this.#step[this.level]
+    }else if(direction=='E'){
+      this.x += this.#step[this.level]
+    }
+  }
+
+  levelUp(){
+    this.level++   
+  }
+}
+step15()
