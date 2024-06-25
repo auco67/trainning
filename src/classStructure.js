@@ -1387,7 +1387,7 @@ function step14() {
   })
 
   cars.forEach((car) => {
-    console.log(car.mileage)
+    console.log('STEP: 14 スーパースーパースーパーカー ' + car.mileage)
   })
 }
 
@@ -1459,7 +1459,7 @@ function step15(){
   var N = Number.parseInt(ay[2])
   var K = Number.parseInt(ay[3])
   lines.shift()
-  
+
   var tools = []
   var robots = []
   var works = []
@@ -1490,7 +1490,7 @@ function step15(){
     }
   })
   robots.forEach(robot=>{
-    console.log((robot.x) + ' ' + (robot.y) + ' ' + robot.level)
+    console.log('STEP: 15 ロボットの暴走 ' + (robot.x) + ' ' + (robot.y) + ' ' + robot.level)
   })
 }
 
@@ -1518,4 +1518,4 @@ class Robot{
     this.level++   
   }
 }
-step15()
+//step15()
