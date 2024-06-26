@@ -264,8 +264,13 @@ function step8(){
  */
 function step9(){
     //var lines = ['3 3 176',118,174,133,'join 137','join 177','sorting']
-    var lines = ['10 10 145',169,164,162,112,191,168,168,199,176,146,'join 196','join 142','sorting','sorting','join 131','join 140',
-        'sorting','sorting','join 143','sorting']
+    //var lines = ['10 10 145',169,164,162,112,191,168,168,199,176,146,'join 196','join 142','sorting','sorting','join 131','join 140',
+    //    'sorting','sorting','join 143','sorting']
+
+    const fs = require('fs');
+    var text = fs.readFileSync("./csv/step9.txt", 'utf8');
+    var lines = text.toString().split('\n');
+
     var ay = lines[0].split(' ')
     var N = Number.parseInt(ay[0])
     var K = Number.parseInt(ay[1])
@@ -300,7 +305,7 @@ function step9(){
     })
 }
 
-//step9()
+step9()
 
 /* 
  * STEP:10 アイドルグループ
