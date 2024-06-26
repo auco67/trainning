@@ -1,4 +1,5 @@
 const { timeStamp, time } = require('console')
+const { type } = require('os')
 
 /*
  * STEP: 1 指定の位置への要素の追加
@@ -305,7 +306,7 @@ function step9(){
     })
 }
 
-step9()
+//step9()
 
 /* 
  * STEP:10 アイドルグループ
@@ -359,3 +360,57 @@ function step10(){
     }
 }
 //step10()
+
+/* 
+ * STEP: 11 歴史を作る時間
+ *  西暦 1,000,000,000 年に行われた歴史の授業のグループワークで、歴史上のいくつかの出来事についての記事を年代順に並べて
+ *  歴史年表を作成することになりました。
+ *  ところが、歴史年表は 1 枚の紙にまとめる必要があるため、古い出来事を担当する人から順番に歴史年表を書くことにしました。
+ *  グループの人数 N とそのメンバー S_1 ... S_N が与えられます。続けて、歴史年表に載せる出来事の数 K , 各出来事の起こった年 Y_i , 
+ *  その出来事の記事を担当する生徒の名前 C_i が与えられるので、歴史年表を書く担当者の順番を出力してください。
+ *  なお、 1 人の生徒が複数の出来事の記事を担当することがある点に注意してください。
+ */
+function step11(){
+    //var lines = ['3 5','nao','hiro','yuki','645 nao','593 hiro','2058 yuki','29484 nao','374759 nao']
+    var lines = ['5 10','aoi','ikoka','en','ron','nana','463 nana','7583 nana','5839 nana','17274 nana','3773 nana','264 nana',
+                '7485 nana','24855 nana','395385 nana','5355 nana']
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var K = Number.parseInt(ay[1])
+    lines.shift()
+    var students = []
+    var event = []
+    var events = []
+    for(var i=0; i<lines.length; i++){
+        if(i<N){
+            students.push(lines[i])
+        }else{
+            event.length = 0
+            event = lines[i].split(' ')
+            events.push([Number.parseInt(event[0]),event[1]])
+        }  
+    }
+    events.sort((a, b) => a[0]-b[0])
+    
+    for(var e in events){
+        var ie = Number.parseInt(e)
+        if(ie<events.length-1){
+            if(events[ie][0]==events[ie+1][0]){
+                events.sort((a, b) => {
+                    for(var i=0; i<a.length; i++){
+                        if (a[i] < b[i]) {
+                          return -1;
+                        }
+                        if (b[i] < a[i]) {
+                          return 1
+                        }
+                    }
+                })
+            }
+        }
+    }
+    events.forEach(event=>{
+        console.log(event[1])
+    })
+}
+//step11()
