@@ -1,3 +1,5 @@
+const { timeStamp, time } = require('console')
+
 /*
  * STEP: 1 指定の位置への要素の追加
  *  整数 N, K, Q と、 長さ N の配列 A_1, A_2, ..., A_N が与えられるので、A_K の後ろに Q を挿入した後の長さ N+1 の配列について、
@@ -182,21 +184,18 @@ function step7(){
     var text = fs.readFileSync("./csv/step7.txt", 'utf8');
     var lines = text.toString().split('\n');
     
+    //var dstart = new Date()
     var ay = lines[0].split(' ')
     var N = Number.parseInt(ay[0])
     var K = Number.parseInt(ay[1])
     lines.shift()
     var ids = []
-    var classes = []
+    var classes = new Map()
     for(var i=0; i<lines.length; i++){
         if(i<N){
-            ay.splice(0)
+            ay.length = 0
             ay = lines[i].split(' ')
-            var cls = {
-                id: ay[0],
-                name: ay[1],
-            }
-            classes.push(cls)
+            classes.set(ay[0],ay[1])
         }else{
             ids.push(lines[i])
         }
@@ -209,25 +208,21 @@ function step7(){
         
         switch(order){
             case 'join':
-                var cls = {
-                    id:id,
-                    name:name,
-                }
-                classes.splice(id-1,0,cls)
+                classes.set(id,name)
                 break
             case 'leave':
-                classes.splice(id-1,1)
+                if(classes.has(id)) classes.delete(id)
                 break
             case 'call':
-                for(var c in classes){
-                    if(classes[c].id==id){
-                        console.log(classes[c].name)
-                        break
-                    }
-                }
-        }
+                if(classes.has(id)) console.log(classes.get(id))
+        }        
     }
-    
+    /*
+    var dend = new Date()
+    console.log(dstart.getHours() + ":" + dstart.getMinutes() + ':' + dstart.getSeconds() + ' ' + dend.getHours() + ":" + dend.getMinutes() + ':' + dend.getSeconds())
+    var diff = dend - dstart
+    console.log((diff/60))
+    */
 }
 //step7()
 
@@ -260,7 +255,7 @@ function step8(){
 //step8()
 
 /*
- * STEP: 9 
+ * STEP: 9 ソートと検索 (query)
  * A 君のクラスには A 君を含めて N + 1 人の生徒がいます。A 君の身長は P cm で、他の N 人の生徒の身長はそれぞれ A_1 ... A_N です。
  * このクラスには次のようなイベントが合計 K 回起こります。それぞれのイベントは以下のうちのいずれかです。
  *  ・転校生がクラスに加入する
@@ -268,19 +263,19 @@ function step8(){
  * 全員で背の順で並ぶイベントが起こるたびに、そのとき A 君は前から何番目に並ぶことになるかを出力してください。
  */
 function step9(){
-    var lines = ['3 3 176',118,174,133,'join 137','join 177','sorting']
-    //var lines = ['10 10 145',169,164,162,112,191,168,168,199,176,146,'join 196','join 142','sorting','sorting','join 131','join 140',
-    //    'sorting','sorting','join 143','sorting']
+    //var lines = ['3 3 176',118,174,133,'join 137','join 177','sorting']
+    var lines = ['10 10 145',169,164,162,112,191,168,168,199,176,146,'join 196','join 142','sorting','sorting','join 131','join 140',
+        'sorting','sorting','join 143','sorting']
     var ay = lines[0].split(' ')
     var N = Number.parseInt(ay[0])
     var K = Number.parseInt(ay[1])
     var P = Number.parseInt(ay[2])
     lines.shift()
-    var classes = []
+    var classes = new Set()
     var events = []
     for(var i=0; i<lines.length; i++){
         if(i<N){
-            classes.push(lines[i])
+            classes.add(lines[i])
         }else{
             ay.splice(0)
             ay = lines[i].split(' ')
@@ -290,23 +285,21 @@ function step9(){
     events.forEach(event=>{
         switch(event[0]){
             case 'join':
-                classes.push(Number.parseInt(event[1]))
+                classes.add(Number.parseInt(event[1]))
                 break
             case 'sorting':
-                classes.sort(function(a, b){return a-b})
-                sorting(classes,P)
+                var aryCls = Array.from(classes)
+                aryCls.sort(function(a, b){return a-b})
+                for(var c in aryCls){
+                    if(aryCls[c]>P){
+                        console.log(Number.parseInt(c)+1)
+                        break
+                    }
+                }
         }
     })
 }
-function sorting(classes,P){
-    for(var i in classes){
-        if(classes[i]>P){
-            var j = Number.parseInt(i)+1
-            console.log(j)
-            break
-        }
-    }
-}
+
 //step9()
 
 /* 
