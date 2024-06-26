@@ -277,20 +277,20 @@ function step9(){
     var P = Number.parseInt(ay[2])
     lines.shift()
     var classes = []
-    var ivents = []
+    var events = []
     for(var i=0; i<lines.length; i++){
         if(i<N){
             classes.push(lines[i])
         }else{
             ay.splice(0)
             ay = lines[i].split(' ')
-            ivents.push(ay.concat())
+            events.push(ay.concat())
         }        
     }
-    ivents.forEach(ivent=>{
-        switch(ivent[0]){
+    events.forEach(event=>{
+        switch(event[0]){
             case 'join':
-                classes.push(Number.parseInt(ivent[1]))
+                classes.push(Number.parseInt(event[1]))
                 break
             case 'sorting':
                 classes.sort(function(a, b){return a-b})
@@ -308,3 +308,56 @@ function sorting(classes,P){
     }
 }
 //step9()
+
+/* 
+ * STEP:10 アイドルグループ
+ *  N 人組のロボットアイドルグループのマネージャーとなった A 君は、グループに所属しているアイドル全員の名前を把握しておく必要があります。
+ *  アイドルグループにはメンバーの加入と脱退がつきものなので、そのたびにメンバーを覚えたり忘れたりする必要があります。
+ *  A 君は仕事として握手会の度にアイドル全員の名前を書き出します。ロボットの名前はほとんどが乱数的に付けられたものなので覚えるのが大変です。
+ *  そこで、イベント（メンバーの加入・脱退と握手会）が与えられるので、それらに伴う A 君の仕事をおこなうプログラムを作成しましょう。
+ */
+function step10(){
+    var lines = ['2 7','nene','ao','handshake','leave nene','join neko','join koko','handshake','leave neko','handshake']
+    //var lines = ['5 10','nene','nana','koko','sasa','kiki','handshake','leave nene','leave kiki','leave nana','leave koko',
+    //            'leave sasa','handshake','join riri','join vivi','handshake']
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var K = Number.parseInt(ay[1])
+    lines.shift()
+    var idols = new Set()
+    var events = []
+    for(var i=0; i<lines.length; i++){
+        if(i<N){
+            idols.add(lines[i])
+        }else{
+            events.push(lines[i])
+        }        
+    }
+    
+    for(var e in events){
+        ay.splice(0)
+        if(events[e].includes(' ')){
+            ay = events[e].split(' ')
+            var event = ay[0].toString()
+            var name = ay[1].toString()
+        }else{
+            ay.push(events[e])
+            var event = ay[0].toString()
+        }
+        switch(event){
+            case 'handshake':
+                var aryIdols = Array.from(idols)
+                aryIdols.sort()
+                for(var idol of aryIdols){
+                    console.log(idol)
+                }
+                break
+            case 'leave':
+                idols.delete(name)
+                break
+            case 'join':
+                idols.add(name)
+        }
+    }
+}
+//step10()
