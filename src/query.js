@@ -1,6 +1,3 @@
-const { timeStamp, time } = require('console')
-const { type } = require('os')
-
 /*
  * STEP: 1 指定の位置への要素の追加
  *  整数 N, K, Q と、 長さ N の配列 A_1, A_2, ..., A_N が与えられるので、A_K の後ろに Q を挿入した後の長さ N+1 の配列について、
@@ -53,28 +50,33 @@ function step2(){
 function step3(){
     //var lines = ['5 5',1,2,3,4,5,1,3,5,7,9]
     var lines = ['10 5',351051,62992,166282,497610,636807,678131,885162,81763,810110,943644,670661,463229,62992,1973,901393]
+    /*
+    const fs = require('fs');
+    var text = fs.readFileSync("./csv/step3.txt", 'utf8');
+    var lines = text.toString().split('\n');
+    */
     var ay = lines[0].split(' ')
     var N = Number.parseInt(ay[0])
     var Q = Number.parseInt(ay[1])
     lines.shift()
 
-    var aryA = []
-    var aryK = []
+    var aryA = new Set()
+    var aryK = new Set()
     for(var i=0; i<lines.length; i++){
         if(i<N){
-            aryA.push(lines[i])
+            aryA.add(lines[i])
         }else{
-            aryK.push(lines[i])
+            aryK.add(lines[i])
         }
     }
-    //console.log(aryA, aryK)
-    aryK.forEach(k =>{
-        if(aryA.includes(k)){
+    
+    for(var k of aryK){
+        if(aryA.has(k)){
             console.log('YES')
         }else{
             console.log('NO')
         }
-    })
+    }
 }
 //step3()
 
@@ -414,3 +416,148 @@ function step11(){
     })
 }
 //step11()
+
+/* 
+ * STEP: 12 銀行
+ *  2xxx年に A が設立した A 中央銀行に勤務する直樹は、故障した ATM の対応として、お金を引き出したい会社と電話をして、
+ *  会社名が銀行の名簿に登録されており、かつ、会社側が会社の口座の暗証番号を正しく言えた場合にのみ現金を支払い、
+ *  それを記帳するという業務を任されていました。銀行に登録されている会社名とその口座の暗証番号と残高についての情報、また、
+ *  直樹の電話の情報が与えられるので、全ての取引が終了した後の全ての会社の残高を出力してください。
+ * 解説：　https://paiza.jp/works/mondai/reviews/show/b5d6af5f39bb974414e929facd2ab83c
+ */
+function step12(){
+    //var lines = ['3 5','A 0000 10000','B 1234 23456','C 5678 98765','A 0101 1000','B 1234 1000','C 5678 90000','A 0000 200','B 1233 10000']
+    var lines = ['4 8','i 1353 758385','my 9486 46446','me 3785 38575','mine 3573 92474','i 3785 38753','i 7536 8674','my 2472 973',
+                'my 2984 385','me 7537 4757','me 3785 3757','mine 3757 3857','mine 3573 3858']
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var K = Number.parseInt(ay[1])
+    lines.shift()
+    var company = {}
+    var companies = []
+    var transaction = {}
+    var transactions = []
+    for(var i=0; i<lines.length; i++){
+        if(i<N){
+            ay.length = 0
+            ay= lines[i].split(' ')
+            company = {name:ay[0], pass:ay[1], total:Number.parseInt(ay[2])}
+            companies.push(company)
+        }else{
+            ay.length = 0
+            ay= lines[i].split(' ')
+            transaction = { name:ay[0], pass:ay[1], total:Number.parseInt(ay[2])}
+            transactions.push(transaction)
+        }  
+    }
+    
+    for(var trans of transactions){
+        for(var com of companies){
+            if(trans.name == com.name){
+                if(trans.pass == com.pass){
+                    com.total -= trans.total
+                    break
+                }
+            }
+        }
+    }
+    companies.forEach(com=>{
+        console.log(com.name + ' ' + com.total)
+    })
+}
+//step12()
+
+/*
+ * STEP: 13 経理
+ *  A には N 個の部署があり、名前はそれぞれ S_1 ... S_N です。
+ * 経理係となったあなたは、どの部署が何円のどのような買い物をしたかを記録するように言われました。
+ * どの部署が何円で何を買ったかの領収書が K 枚与えられるので、各部署の会計表を作成しましょう。
+ */
+function step13(){
+    //var lines = ['3 6','A','B','C','A 1 100','B 2 100','A 3 500','C 4 895','C 5 890','A 6 2685']
+    var lines = ['4 5','ed','bjd','bdkf','fkoe','ed 20 2093','ed 584 3388','ed 31737 3885','ed 023748 9300','fkoe 82928 274']
+    var ay = lines[0].split(' ')
+    var N = Number.parseInt(ay[0])
+    var K = Number.parseInt(ay[1])
+    lines.shift()
+    var divisions =[]
+    var receipts = []
+    for(var i=0; i<lines.length; i++){
+        if(i<N){
+            divisions.push(lines[i])
+        }else{
+            ay.length = 0
+            ay = lines[i].split(' ')
+            var receipt = { div:ay[0], no:ay[1], amount:Number.parseInt(ay[2])}
+            receipts.push(receipt)
+        }  
+    }    
+    receipts.sort((a, b) => a.div > b.div ? 1 : -1 )
+    var lenDiv = divisions.length
+    var lenRec = receipts.length
+    for(var i=0; i<lenDiv; i++){
+        console.log(divisions[i])        
+        for(var j=0; j<lenRec; j++){
+            if(divisions[i]==receipts[j].div){
+                console.log(receipts[j].no + ' ' + receipts[j].amount)
+            }
+        }
+        console.log('-----')
+    }
+}
+//step13()
+
+/* 
+ * STEP: 14 Vtuber
+ *  あなたは流行に乗っかり、Vtuber としての活動をスタートしました。活動も軌道にのり、配信をするたびに視聴者が superchat を送ってくれたり、
+ *  メンバーシップ制度に加入してくれるようになりました。（わからない方は 「youtube superchat」「youtube membership」 などで検索してみてください。）
+ *  あなたはお礼として superchat を読むお礼配信をおこなうことにしました。その配信で、前回の配信の superchat の総額が高いアカウントから順に、
+ *  superchat をした全てのアカウントの名前を読んだ後、メンバーシップに入ってくれた全てのアカウントの名前を辞書順昇順で読むことにしました。
+ *  superchat の金額が同じ場合、同じ金額の中で辞書順降順でアカウント名を読むことにしました。
+ *  前回の配信の superchat とメンバーシップ加入の履歴が与えられるので、読む順番にアカウント名を出力するプログラムを作成してください。
+ *  解説：https://paiza.jp/works/mondai/reviews/show/0eef1796bc82ec9d8eb022475e244db1
+ */
+function step14(){
+    //var lines = [5,'aiueo give 2489 !','kk join membership!','coffee_addiction join membership!','so_cute give 837 !','yoyo give 9284 !']
+    var lines = [20,'eicuf give 15492 !','ishaz join membership!','aehah give 17153 !','sheeh join membership!','uquai give 21723 !',
+                'eefah join membership!','uquai give 5189 !','daike join membership!','ahtoo give 16460 !','eefah give 11801 !',
+                'thaep give 45466 !','eicuf give 13505 !','thaep join membership!','ikoem join membership!','aehah join membership!',
+                'thiil join membership!','sheeh give 28624 !','ikoem give 13729 !','uquai give 39891 !','eefah give 31131 !']
+    var N = lines[0]
+    lines.shift()
+    /*
+    const fs = require('fs');
+    var text = fs.readFileSync("./csv/step14.txt", 'utf8');
+    var lines = text.toString().split('\n');
+    */
+    var listeners = new Map()
+    var members = []
+    for(var i=0; i<lines.length; i++){
+        var ay = lines[i].split(' ')
+        if(ay[1]=='give') {
+            if(listeners.has(ay[0])){
+                var temp = Number.parseInt(listeners.get(ay[0]))
+                temp += Number.parseInt(ay[2])
+                listeners.set(ay[0],temp)
+            }else{
+                listeners.set(ay[0],Number.parseInt(ay[2]))
+            }            
+        }
+        if(ay[1]=='join') members.push(ay[0])
+    }
+    //console.log(listeners)
+    var listeners = new Map([...listeners.entries()].sort((a,b) => b[1] -a[1]))
+    //console.log(listeners)
+    
+    for(var [key, value] of listeners){
+        console.log(key)
+    }
+    
+    members.sort()
+    //console.log(members)
+    members.forEach(member=>{
+        console.log(member)
+    })
+    
+}
+//step14()
