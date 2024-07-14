@@ -445,4 +445,68 @@ function quickSort(a, left, right) {
   }
   
 }
-step6()
+//step6()
+
+/**
+ * STEP: 7 ソートの基本
+ *  整数 n と、数列 a_1, ... , a_n が与えられます。
+ *  数列 a が昇順でソートされた状態かどうか判定してください。言い換えると、 a_1 ≦ a_2 ≦ ... ≦ a_n かどうか判定してください。
+ */
+function step7(){
+  //var lines = [5,"1 3 5 7 9"]
+  //var lines = [5,"4 3 5 1 9"]
+  var lines = [1,100]
+  var n = Number.parseInt(lines[0])
+  var a = []
+  if(n!=1){
+    a = lines[1].split(" ")
+  }else{
+    a = [lines[1]]
+  }
+  
+  var blnFlg = []
+  for(var i=0; i<n; i++){
+    if(i<n-1){
+      var a_i = Number.parseInt(a[i])
+      var a_i_1 = Number.parseInt(a[i+1])
+      if(a_i > a_i_1){
+        blnFlg.push(false)
+      }else{
+        blnFlg.push(true)
+      }
+    }
+  }
+  if(blnFlg.includes(false)){
+    console.log("No")
+  }else{
+    console.log("Yes")
+  }
+  
+}
+//step7()
+
+/**
+ * STEP: 8 最大最小
+ *  整数 n と、数列 a_1, ... , a_n が与えられます。
+ *  数列 a の最大値と最小値をそれぞれ半角スペース区切りで出力してください。
+ */
+function step8(){
+  //var lines = [5,"1 3 5 7 9"]
+  //var lines = [5,"4 3 9 1 2"]
+  var lines =[1,100]
+  var n = Number.parseInt(lines[0])
+  var a = []
+  if(n!=1){
+    a = lines[1].split(" ")
+  }else{
+    a = [Number.parseInt(lines[1])]
+  }
+  
+  for(var i=0; i<n; i++){
+    a[i] = Number.parseInt(a[i])
+  }
+  var max = Math.max(...a)
+  var min = Math.min(...a)
+  console.log(max, min)
+}
+step8()
