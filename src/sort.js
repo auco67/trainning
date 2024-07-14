@@ -509,4 +509,96 @@ function step8(){
   var min = Math.min(...a)
   console.log(max, min)
 }
-step8()
+//step8()
+
+/**
+ * STEP :9 Top - k (easy) 
+ *  整数 n と、数列 a_1, ... , a_n と数値 k が与えられます。
+ *  数列 a の k 番目に大きい値を出力してください。
+ */
+function step9(){
+  //var lines = ["5 2","1 3 5 7 9"]
+  //var lines = ["5 2","4 9 9 1 2"]
+  var lines = ["1 1","100"]
+  var ay = lines[0].split(" ")
+  var n = Number.parseInt(ay[0])
+  var k = Number.parseInt(ay[1])
+  var a = []
+  if(n!=1){
+    a = lines[1].split(" ")
+  }else{
+    a = [Number.parseInt(lines[1])]
+  }
+  for(var i=0; i<n; i++){
+    a[i] = Number.parseInt(a[i])
+  }
+  a.sort((a, b) => {return(b-a)})
+  console.log(a[k-1])
+}
+//step9()
+
+/**
+ * STEP :10 重複削除
+ *  整数 n と、数列 a_1, ... , a_n が与えられます。
+ *  数列 a から重複した要素をすべて削除し、残った要素を昇順かつ半角スペース区切りで出力してください。
+ */
+function step10(){
+  //var lines = [6,"2 2 2 1 3 3"]
+  //var lines = [5,"1 1 1 1 1"]
+  var lines = [1,"100"]
+  var n = Number.parseInt(lines[0])
+  var a = [], b = []
+  if(n!=1){
+    a = lines[1].split(" ")
+  }else{
+    a = [Number.parseInt(lines[1])]
+  }
+  for(var i=0; i<n; i++){
+    a[i] = Number.parseInt(a[i])
+    if(!b.includes(a[i])) b.push(a[i])
+  }
+  b.sort((a, b) => {return(a-b)})
+  console.log(b.join(",").replaceAll(",", " "))
+}
+//step10()
+
+/**
+ * STEP: 11 区間のソート
+ *  整数 n, l, r と、数列 a_1, ... , a_n が与えられます。
+ *  数列 a の l 番目の要素から r - 1 番目の要素だけを昇順でソートしてください。 
+ *  l 番目の要素から r - 1 番目の要素以外の要素は操作する必要がありません。
+ *  また、操作後の数列 a を半角スペース区切りで出力してください。
+ */
+function step11(){
+  var lines = ["6 2 6","6 5 4 3 2 1"]
+  //var lines = ["6 1 7","6 5 4 3 2 1"]
+  //var lines = ["1 1 2","1"]
+  var ay = lines[0].split(" ")
+  var n = Number.parseInt(ay[0])
+  var l = Number.parseInt(ay[1])-1
+  var r = Number.parseInt(ay[2])-2
+  var a = [],b = [], c = []
+  if(n!=1){
+    a = lines[1].split(" ")
+  }else{
+    a = [Number.parseInt(lines[1])]
+  }
+  for(var i=0; i<n; i++){
+    a[i] = Number.parseInt(a[i])
+    if(i>=l && i<=r){
+      b.push(a[i])
+    }
+  }
+  b.sort((a, b) => {return(a-b)})
+  for(i=0; i<n; i++){
+    if(i<l){
+      c.push(a[i])
+    }else if(i>=l && i<=r){
+      c.push(b[i-l])
+    }else if(i>r){
+      c.push(a[i])
+    }
+  }
+  console.log(c.join(",").replaceAll(","," "))
+}
+step11()
