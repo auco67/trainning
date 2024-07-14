@@ -220,3 +220,123 @@ function insertion_sort(A, n, h){
   console.log(num_of_move)
 }
 //step4()
+
+/**
+ * STEP: 5 マージソート
+ *  マージソート (昇順) は、データ列を二分し、それぞれをマージソートした後それらを「マージ (統合) 」することを繰り返すソートアルゴリズムです。
+ *  マージソートは、問題を小さな問題に分割して解くことを繰り返すことによって元の問題の答えを得る手法である「分割統治法」に基づいたアルゴリズムです。
+ *  マージソート (昇順) は以下のようなアルゴリズムです。データ列を二分してマージソートを行う merge_sort と、
+ *  昇順にソートされた2つの部分データ列をマージする merge から成ります。
+ *  / アルゴリズムが正しく実装されていることを確認するために導入するカウンタ変数、ソート処理には関係がないことに注意
+ *  count <- 0
+ *  
+ *  部分データ列 A[left] ~ A[mid-1], A[mid] ~ A[right-1] はそれぞれ整列済み
+ *  2つの部分データ列をマージし、A[left] ~ A[right-1] を整列済みにする
+ *  
+ *  merge(A : 配列, left : 整数, mid : 整数, right : 整数)
+ *  // 2つの部分データ列のサイズ
+ *  nl <- mid-left
+ *  nr <- right-mid
+ *  
+ *  // 部分データ列をコピー
+ *  for i = 0 to nl-1
+ *      L[i] <- A[left+i]
+ *  for i = 0 to nr-1
+ *      R[i] <- A[mid+i]
+ *  
+ *  // 番兵
+ *  L[nl] <- INF
+ *  R[nr] <- INF
+ *  
+ *  // 2つの部分データ列をマージして A[left] ~ A[right-1] に書き込む
+ *  lindex <- 0
+ *  rindex <- 0
+ *  
+ *  for i = left to right-1
+ *      if L[lindex] < R[rindex] then
+ *          A[i] <- L[lindex]
+ *          lindex++
+ *      else
+ *          A[i] <- R[rindex]
+ *          rindex++
+ *          count++
+ *  
+ *  A[left] ~ A[right-1] をマージソートする
+ *  配列 A をマージソートするには merge_sort(A, 0, n) を呼び出す
+ *  
+ *  merge_sort(A : 配列, left : 整数, right : 整数)
+ *  if left+1 < right
+ *      mid = (left + right) / 2
+ *      merge_sort(A, left, mid)
+ *      merge_sort(A, mid, right)
+ *      merge(A, left, mid, right)
+ *  このプログラムでは番兵と呼ばれるテクニックを使っています。これは、処理を行う範囲の境界部分に特殊なデータを置いておくことで、
+ *  プログラムをすっきりさせるテクニックです。番兵を使わずに上のプログラムを書こうとすると、データ列をマージする処理において
+ *   lindex や rindex がそれぞれ nl, nr 未満であるかどうかを確かめながら複雑な条件分岐の処理を書く必要が出てきます。
+ *  今回は、入力の最大値より大きい数 INF を2つのデータ列の末尾に配置することで、番兵を実現しています。
+ *  マージソートの計算量を考えます。merge_sort ではデータ列を2つに分割していますが、この分割は入力されるデータ列のサイズ n に
+ *  対して約 log n 段行われます (上図参照) 。そして、各段のマージに合計 O(n) かかるため、マージソート全体の計算量は O(n log n) です。
+ *  では、要素数 n の数列を昇順にソートするマージソートのプログラムを、上の疑似コードに従って実装してください。
+ *  アルゴリズムが正しく実装されていることを確認するために、数列をソートした結果に加え、マージソート後の count の値を出力してください。
+ */
+var INF = 1000000001
+var count = 0
+function step5(){
+  var lines = [10,'7 6 10 2 5 4 8 3 9 1']
+  var n = Number.parseInt(lines[0])
+  var A = lines[1].split(' ')
+  for(var i=0; i<A.length; i++){
+    A[i] = Number.parseInt(A[i])
+  }
+  mergeSort(A, 0, n)
+
+  var str = ""
+  for(i=0; i<A.length; i++){
+    if(i==A.length-1){
+      str += A[i]
+    }else{
+      str += A[i] + " "
+    }
+  }
+  //str = str.slice(0, str.length-1)
+  console.log(str)
+  console.log(count)  
+}
+function merge(A,left, mid, right){
+  var nl = mid -left
+  var nr = right - mid
+  var l = [], r = []
+  for(var i = 0; i<nl; i++){
+    l.push(A[left + i])
+  }
+  for(var j = 0; j<nr; j++){
+    r.push(A[mid + j])
+  }
+
+  l.push(INF)
+  r.push(INF)
+
+  var lindex = 0
+  var rindex = 0
+  
+  for(var k = left; k<right; k++){
+    if(l[lindex]<r[rindex]){
+      A[k] = l[lindex]
+      lindex++
+    }else{
+      A[k] = r[rindex]
+      rindex++
+      count++
+    }
+  }
+}
+function mergeSort(A, left, right){
+  
+  if(left+1<right){
+    var mid = Math.floor((left+right)/2)
+    mergeSort(A, left, mid)
+    mergeSort(A, mid, right)
+    merge(A, left, mid, right)  
+  }  
+}
+step5()
