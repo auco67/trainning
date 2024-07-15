@@ -601,4 +601,80 @@ function step11(){
   }
   console.log(c.join(",").replaceAll(","," "))
 }
-step11()
+//step11()
+
+/**
+ * STEP: 12 Top - k (hard)
+ *  整数 n, q と、数列 a_1, ..., a_n と数列 k_1, ..., k_q が与えられます。
+ *  1 以上 n 以下の各 i について、 a の k_i 番目に大きい値をそれぞれ求め、改行区切りで出力してください。
+ */
+function step12(){
+  var lines = ["6 3","11 9 7 5 3 1","1 2 3"]
+  //var lines = ["5 6","3 5 7 9 11","1 2 3 2 5 4"]
+  var ay = lines[0].split(" ")
+  var n = Number.parseInt(ay[0])
+  var q = Number.parseInt(ay[1])
+  var a = lines[1].split(" ")
+  var k = lines[2].split(" ")
+  a = a.map(Number)
+  a.sort((a, b)=>{return (b-a)})
+  k = k.map(Number)
+  
+  for(var i=0; i<q; i++){
+    console.log(a[k[i]-1])
+  }
+}
+//step12()
+
+/**
+ * STEP: 13 プログラミングレベル
+ *  問題集に、新たに n 個の問題が収録された問題集が公開されました。
+ *  各問題の難易度は数値で表され、 a_1, ... , a_n です。問題は好きな順序で解くことができますが、
+ *  難易度 a_i の問題を解くには「プログラミングレベル」が a_i 以上である必要があります。
+ *  また、難易度 a_i の問題を解くと「プログラミングレベル」が a_i + 1 になります。
+ *  プログラミング初心者である京子ちゃんは現在「プログラミングレベル」が 1 です。
+ *  京子ちゃんは問題集内のすべての問題を解くことができるでしょうか。
+ */
+function step13(){
+  //var lines = [5,"3 1 4 2 5"]
+  //var lines = [1,100]
+  const fs = require('fs');
+  var text = fs.readFileSync("./csv/step13_2.txt", 'utf8');
+  var lines = text.toString().split('\n');
+
+  var level = 1
+  var n = Number.parseInt(lines[0])
+  var a = []
+  if(n==1){
+    a.push(Number.parseInt(lines[1]))
+  }else{
+    a = lines[1].split(" ")
+    a = a.map(Number)
+  }
+  a.sort((a,b)=>{return (a-b)})
+  console.log(a)
+  var blnFlg =false
+  if(a[0]==1) blnFlg = true
+  
+  for(var i=0; i<n; i++){
+    if(i<n-1){
+      if(a[i+1]-a[i]>1){
+        blnFlg = false
+        break
+      }
+    }
+    if(level>=a[i]){
+      blnFlg = true
+      level +=(i+1)
+    }else{
+      blnFlg = false
+    }
+  }
+  
+  if(blnFlg){
+    console.log("Yes")
+  }else{
+    console.log("No")
+  }
+}
+//step13()
