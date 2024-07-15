@@ -678,3 +678,84 @@ function step13(){
   }
 }
 //step13()
+
+/**
+ * STEP: 14 辞書順
+ *  数値 k が与えられます。
+ *  アルファベット小文字 3 文字で作られる文字列のうち、辞書順で k 番目に小さい文字列を答えてください。
+ *  辞書順とは、辞書に出てくる順番のことで、たとえばabc, aaa, acb, abdの四つを辞書順に並び替えると
+ *  aaa, abc, abd, acbの順になります。
+ */
+function step14(){
+  var lines = [15566]
+  var k = Number.parseInt(lines[0])-1
+  var alpha = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+  var one = alpha.concat()
+  var two = alpha.concat()
+  var three = alpha.concat()
+  var alphaLen = 26
+  var maxNum = alphaLen ** 3
+  var cnt1= 0, cnt2= 0, cnt3=0
+  var str = ""
+  for(var i=0; i<maxNum; i++){
+    if(i==k){      
+      if(i<(alphaLen ** 1)){
+        cnt1 = i%alphaLen
+
+      }else if(i>(alphaLen ** 1) && i<(alphaLen ** 2)){
+        cnt2 = Math.floor(i/(alphaLen ** 1))
+        cnt1 = i%(alphaLen ** 1)
+
+      }else if(i>(alphaLen ** 2) && i<(alphaLen ** 3)){
+        cnt3 = Math.floor(i/(alphaLen ** 2))
+        if(i%(alphaLen ** 2) > (alphaLen ** 1)){
+          cnt2 = Math.floor( (i%(alphaLen ** 2)) / (alphaLen ** 1) )
+          cnt1 = (i%(alphaLen ** 2))%(alphaLen ** 1)
+        }
+      }
+      str = one[cnt3]+two[cnt2]+three[cnt1]
+      console.log(str)
+      break
+    }    
+  }
+}
+//step14()
+
+/**
+ * STEP:15 部分列
+ * 整数 n, x と、数列 a_1, ... , a_n が与えられます。
+ * a からいくつかの要素を選び、それらの和を x 以上にするためには最低いくつの要素を選ぶ必要がありますか。
+ * たとえば、 a = [ 5, 3, 6, 2 ], x = 12 とします。和が 12 以上になる a の要素の組み合わせは以下の 3 つです。
+ * ・ [ 5, 3, 6 ]
+ * ・ [ 5, 6, 2 ]
+ * ・ [ 5, 3, 6, 2 ]
+ * この場合、 a からいくつかの要素を選び、それらの和を 12 以上にするためには最低 3 つの要素を選ぶ必要があります。
+ */
+function step15(){
+  //var lines = ["4 12","5 3 6 2"]
+  //var lines = ["4 17","5 3 6 2"]
+  var lines = ["4 200000000000","1000000 1000000 1000000 1000000"]
+  var ay = lines[0].split(" ")
+  var n = Number.parseInt(ay[0])
+  var x = Number.parseInt(ay[1])
+  var a = lines[1].split(" ")
+  a = a.map(Number)
+  a.sort((a, b)=>{return(b-a)})
+  var count = 1
+  var total = 0
+  for(var i=0; i<n; i++){
+    total += a[i]
+    if(total<x){
+      count++
+    }else{
+      break
+    }
+  }
+  if(total<x){
+    console.log(-1)
+  }else{
+    console.log(count)
+  }
+  
+}
+//step15()
