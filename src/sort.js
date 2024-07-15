@@ -805,6 +805,28 @@ function step16(){
  *  a の i + 1 列目の値が昇順になっている ( 1 ≦ i ≦ m - 1 )
  */
 function step17(){
-
+  var lines = ["4 3 3","10 100 1","10 100 11","10 200 2","20 200 1"]
+  //var lines = ["4 2 2","1 1","1 1","1 3","1 2"]
+  var ay = lines[0].split(" ")
+  ay = ay.map(Number)
+  var n = ay[0]
+  var m = ay[1]
+  var k = ay[2]-1
+  var a = []
+  for(var i=1; i<n+1; i++){
+    a.push(lines[i].split(" ").map(Number))
+  }
+  a.sort((a, b)=>{
+    if (a[k] < b[k]) return -1
+    if (a[k] > b[k]) return 1
+    for(var j= 0; j<m; j++){
+      if (a[j] < b[j]) return -1
+      if (a[j] > b[j]) return 1
+    }
+    return 0
+  })
+  a.forEach(a=>{
+    console.log(a.join(",").replaceAll(","," "))
+  })
 }
 step17()
