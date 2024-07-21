@@ -893,4 +893,31 @@ function step19(){
     console.log(l)
   })
 }
-step19()
+//step19()
+
+/**
+ * STEP: 20 マンハッタン距離
+ *  二次元平面上に n 個の点があり、それぞれの座標は (y_i, x_i) です。これらの点を原点( 座標( 0, 0 ) )とのマンハッタン距離が昇順になるようにソートしてください。
+ *  マンハッタン距離が等しい複数の座標に関しては好きな順序で出力して構いません。
+ *  2 つの座標 (y_i, x_i), (y_j, x_j) のマンハッタン距離は以下のように計算できます( |x| は x の絶対値を表す)。
+ *  ・ | y_i - y_j | + | x_i - x_j |
+ */
+function step20(){
+  var lines = [4,"1 1","0 0","10 10","-2 1"]
+  var n = Number(lines[0])
+  var coordinate = []
+  lines.shift()
+  for(var i=0; i<n; i++){
+    var ary = lines[i].split(" ")
+    coordinate.push(ary.map(Number))
+  }
+  var manhattan = []
+  for(var i=0; i<n; i++){
+    manhattan.push([Math.abs(0-coordinate[i][0])+Math.abs(0-coordinate[i][1]),coordinate[i]])
+  }
+  manhattan.sort((a, b)=>{return a[0]-b[0]})
+  manhattan.forEach(m=>{
+    console.log(m[1][0] + " " + m[1][1])
+  })
+}
+step20()
