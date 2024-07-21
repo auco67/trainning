@@ -920,4 +920,25 @@ function step20(){
     console.log(m[1][0] + " " + m[1][1])
   })
 }
-step20()
+//step20()
+
+/**
+ * STEP :21 座標圧縮
+ *  横一直線に並んだ 1,000,000,000 (= 10^9 ) 個のマスがあり、左から A_1, ..., A_N 番目の N 個のマスに色を塗りました。
+ *  全部で Q 回行われる以下の質問にすべて答えてください。
+ *  ・左から X_i ( 1 ≦ i ≦ Q ) 番目のマスは色が塗られていることがわかりました。
+ *    このマスは色が塗られているマスのうち左から何番目のマスでしょう。
+ *  
+ */
+function step21(){
+  var lines = ["6 4","11 6 16 5 2 13","5 11 13 2"]
+  var N = lines[0].split(" ")[0]
+  var Q = lines[0].split(" ")[1]
+  var A = lines[1].split(" ").map(Number)
+  A.sort((a, b)=>{return (a-b)})
+  var X = lines[2].split(" ").map(Number)
+  for(var i=0; i<Q; i++){
+    console.log(A.indexOf(X[i],0)+1)
+  }
+}
+step21()
