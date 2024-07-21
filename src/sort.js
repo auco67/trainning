@@ -941,4 +941,38 @@ function step21(){
     console.log(A.indexOf(X[i],0)+1)
   }
 }
-step21()
+//step21()
+
+/**
+ * STEP: 22 ソートによる高速化まとめ
+ *  N 要素の数列 A が与えられます。次の 2 つの操作をおこなうプログラムを作成してください。
+ *  ・ update(k, x): 列の先頭から k 番目の値を x に変更する。
+ *  ・ get(k): 数列 A の中から大きい順で k 番目の値を出力する。
+ */
+function step22(){
+  var lines = ["6 4","6 5 4 3 2 1","get 1 0","update 6 7","get 1 0","get 6 0"]
+  var A = lines[1].split(" ").map(Number)
+  lines.shift()
+  lines.shift()
+  var query = lines
+  
+  function update(k, x){
+    A[k-1] = Number(x)
+  }
+
+  function get(k){
+    var temp = A.concat()
+    temp = temp.sort((a, b)=>{return (b-a)})
+    return temp[k-1]
+  }
+
+  query.forEach(q=>{
+    if(q.split(" ")[0]==="get"){
+      console.log(get(q.split(" ")[1]))
+
+    }else if(q.split(" ")[0]==="update"){
+      update(q.split(" ")[1],q.split(" ")[2])
+    }
+  })
+}
+step22()
