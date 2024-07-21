@@ -872,3 +872,25 @@ function step18(){
 }
 //step18()
 
+/**
+ * STEP: 19 文字列のソート
+ * 文字列が n 個与えられます。以下の条件を満たすように並び替えてください。
+ * 1. 各文字列の文字数が昇順になるようにする。
+ * 2. 文字数が等しい複数の文字列の中では、辞書順になるようにする。
+ */
+function step19(){
+  var lines = [4,"b","ab","a","aa"]
+  lines.shift()
+  lines.sort((a, b)=>{
+    if (a.length < b.length) return -1
+    if (a.length > b.length) return 1
+    if (a.length === b.length){
+      if (a < b) return -1
+      if (a > b) return 1
+    }
+  })
+  lines.forEach(l=>{
+    console.log(l)
+  })
+}
+step19()
